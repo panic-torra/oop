@@ -10,9 +10,11 @@ using namespace std;
 void CheckArgCount(int);
 void CheckInputFile(ifstream &, string);
 void CheckOutputFile(ofstream &, string);
-void CheckSearchStr(string);
+void CheckStrNotEmpty(string);
 void CheckWritingData(ofstream &);
-void ReplaceStringToStringInFile(ifstream &, ofstream &, char * []);
+void ReplaceInFiles(ifstream &, ofstream &, char * []);
+void ReplaceStrToStrInLine(string &, string, string);
+
 
 int main(int argc, char * argv[])
 {
@@ -23,10 +25,10 @@ int main(int argc, char * argv[])
 
 	ofstream output(argv[2]);
 	CheckOutputFile(output, argv[2]);
-    
-	CheckSearchStr(argv[3]);
 
-	ReplaceStringToStringInFile(input, output, argv);
+	CheckStrNotEmpty(argv[3]);
+
+	ReplaceInFiles(input, output, argv);
 
 	CheckWritingData(output);
 
@@ -61,7 +63,7 @@ void CheckOutputFile(ofstream & output, string fileName)
 	}
 }
 
-void CheckSearchStr(string searchStr)
+void CheckStrNotEmpty(string searchStr)
 {
 	if (searchStr == "")
 	{
@@ -79,29 +81,35 @@ void CheckWritingData(ofstream & output)
 	}
 }
 
-void ReplaceStringToStringInFile(ifstream & input, ofstream & output, char * argv[])
+void ReplaceInFiles(ifstream & input, ofstream & output, char * argv[])
 {
 	const string searchString  = argv[3];
 	const string replaceString = argv[4];
-	const int replaceStringLen = replaceString.length();
-	const int searchStringLen  = searchString.length();
-	
+
 	string currString;
 
 	while (getline(input, currString))
 	{
-		size_t currPosition = 0;
-		size_t lastPosition = 0;
-		while (currPosition != string::npos)
-		{
-			currPosition = currString.find(searchString, lastPosition);
-			if (currPosition != string::npos)
-			{
-				currString.replace(currPosition, searchStringLen, replaceString);
-				lastPosition = currPosition + replaceStringLen;
-			}
-
-		}
+		ReplaceStrToStrInLine(currString, searchString, replaceString);
 		output << currString << "\n";
+	}
+}
+
+void ReplaceStrToStrInLine(string & currString, string searchString, string replaceString)
+{
+	const int replaceStringLen = replaceString.length();
+	const int searchStringLen = searchString.length();
+
+	size_t currPosition = 0;
+	size_t lastPosition = 0;
+
+	while (currPosition != string::npos)
+	{
+		currPosition = currString.find(searchString, lastPosition);
+		if (currPosition != string::npos)
+		{
+			currString.replace(currPosition, searchStringLen, replaceString);
+			lastPosition = currPosition + replaceStringLen;
+		}
 	}
 }

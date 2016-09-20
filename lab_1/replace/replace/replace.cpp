@@ -2,7 +2,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-
 #define MAX_NUM_OF_ARG 5
 
 using namespace std;
@@ -15,7 +14,6 @@ void CheckWritingData(ofstream &);
 void ReplaceInFiles(ifstream &, ofstream &, char * []);
 void ReplaceStrToStrInLine(string &, string, string);
 
-
 int main(int argc, char * argv[])
 {
 	CheckArgCount(argc);
@@ -27,9 +25,7 @@ int main(int argc, char * argv[])
 	CheckOutputFile(output, argv[2]);
 
 	CheckStrNotEmpty(argv[3]);
-
 	ReplaceInFiles(input, output, argv);
-
 	CheckWritingData(output);
 
 	return 0;
@@ -40,7 +36,7 @@ void CheckArgCount(int argc)
 	if (argc != MAX_NUM_OF_ARG)
 	{
 		cout << "Invalid arguments count\n"
-			 << "Usage: replace.exe <input file> <output file> <search string> <replace string>\n";
+		     << "Usage: replace.exe <input file> <output file> <search string> <replace string>\n";
 		exit(1);
 	}
 }

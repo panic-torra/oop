@@ -83,33 +83,33 @@ void CheckWritingData(ofstream & output)
 
 void ReplaceInFiles(ifstream & input, ofstream & output, char * argv[])
 {
-	const string searchString  = argv[3];
-	const string replaceString = argv[4];
+	const string searchStr  = argv[3];
+	const string replaceStr = argv[4];
 
 	string currString;
 
 	while (getline(input, currString))
 	{
-		ReplaceStrToStrInLine(currString, searchString, replaceString);
+		ReplaceStrToStrInLine(currString, searchStr, replaceStr);
 		output << currString << "\n";
 	}
 }
 
-void ReplaceStrToStrInLine(string & currString, string searchString, string replaceString)
+void ReplaceStrToStrInLine(string & currString, string searchStr, string replaceStr)
 {
-	const int replaceStringLen = replaceString.length();
-	const int searchStringLen = searchString.length();
+	const int replaceStrLen = replaceStr.length();
+	const int searchStrLen = searchStr.length();
 
-	size_t currPosition = 0;
-	size_t lastPosition = 0;
+	size_t currPos = 0;
+	size_t lastPos = 0;
 
-	while (currPosition != string::npos)
+	while (currPos != string::npos)
 	{
-		currPosition = currString.find(searchString, lastPosition);
-		if (currPosition != string::npos)
+		currPos = currString.find(searchStr, lastPos);
+		if (currPos != string::npos)
 		{
-			currString.replace(currPosition, searchStringLen, replaceString);
-			lastPosition = currPosition + replaceStringLen;
+			currString.replace(currPos, searchStrLen, replaceStr);
+			lastPos = currPos + replaceStrLen;
 		}
 	}
 }

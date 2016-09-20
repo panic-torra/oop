@@ -1,9 +1,7 @@
-// lab_1.cpp: определяет точку входа для консольного приложения.
-//
-
 #include "stdafx.h"
 #include <iostream>
 #include <fstream>
+#include <string>
 
 using namespace std;
 
@@ -31,26 +29,42 @@ int main(int argc, char * argv[])
 		return 1;
 	}
 
+	const string searchString  = argv[3];
 
-	/*
-	char ch;
-	// Считываем в переменную ch символ из входного потока
-	// возвращаем значение, приводимое к bool, которое сигнализирует об успехе
-	while (input.get(ch))
+	if (searchString.length() == 0)
 	{
-	if (!output.put(ch))
-	{
-	cout << "Failed to save data on disk\n";
-	return 1;
+		cout << "Failed to search empty string\n";
+		return 1;
 	}
+	
+
+	const string replaceString = argv[4];
+	int replaceStringLen = replaceString.length();
+	string currString;
+
+	while (getline(input, currString))
+	{
+		size_t currPosition = 0;
+		size_t lastPosition = 0;
+
+		while (currPosition != string::npos)
+		{
+			currPosition = currString.find(searchString, lastPosition);
+			if (currPosition != string::npos)
+			{
+				currString.replace(currPosition, replaceStringLen, replaceString);
+				lastPosition = currPosition + replaceStringLen;
+			}
+			
+		}
+		output << currString << "\n";
 	}
 
-	if (!output.flush()) // Если не удалось сбросить данные на диск
+	if (!output.flush())
 	{
-	cout << "Failed to save data on disk\n";
-	return 1;
+	    cout << "Failed to save data on disk\n";
+	    return 1;
 	}
-	*/
 
 	return 0;
 }

@@ -39,23 +39,23 @@ int main(int argc, char * argv[])
 	
 
 	const string replaceString = argv[4];
-	int replaceStringLen = replaceString.length();
+	const int replaceStringLen = replaceString.length();
+	const int searchStringLen = searchString.length();
 	string currString;
 
 	while (getline(input, currString))
 	{
 		size_t currPosition = 0;
 		size_t lastPosition = 0;
-
 		while (currPosition != string::npos)
 		{
 			currPosition = currString.find(searchString, lastPosition);
 			if (currPosition != string::npos)
 			{
-				currString.replace(currPosition, replaceStringLen, replaceString);
+				currString.replace(currPosition, searchStringLen, replaceString);
 				lastPosition = currPosition + replaceStringLen;
 			}
-			
+
 		}
 		output << currString << "\n";
 	}

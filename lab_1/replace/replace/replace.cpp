@@ -5,14 +5,15 @@
 
 using namespace std;
 
+void CheckArgCount(int);
+void CheckInputFile(ifstream);
+void CheckOutputFile(ifstream);
+void CheckSearchStr(string);
+void ReplaceStringToStringInFile(ifstream, string, string);
+
 int main(int argc, char * argv[])
 {
-	if (argc != 5)
-	{
-		cout << "Invalid arguments count\n"
-			<< "Usage: replace.exe <input file> <output file> <search string> <replace string>\n";
-		return 1;
-	}
+	CheckArgCount(argc);
 
 	ifstream input(argv[1]);
 
@@ -36,7 +37,6 @@ int main(int argc, char * argv[])
 		cout << "Failed to search empty string\n";
 		return 1;
 	}
-	
 
 	const string replaceString = argv[4];
 	const int replaceStringLen = replaceString.length();
@@ -67,4 +67,14 @@ int main(int argc, char * argv[])
 	}
 
 	return 0;
+}
+
+void CheckArgCount(int argc)
+{
+	if (argc != 5)
+	{
+		cout << "Invalid arguments count\n"
+			<< "Usage: replace.exe <input file> <output file> <search string> <replace string>\n";
+		exit(1);
+	}
 }

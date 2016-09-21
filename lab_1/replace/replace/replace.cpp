@@ -6,74 +6,67 @@
 
 using namespace std;
 
-void CheckArgCount(int);
-void CheckInputFile(ifstream &, const string &);
-void CheckOutputFile(ofstream &, const string &);
-void CheckStrNotEmpty(const string &);
-void CheckWritingData(ofstream &);
+bool CheckArgCount(int);
+bool CheckInputFile(ifstream &);
+bool CheckOutputFile(ofstream &);
+bool CheckStrNotEmpty(const string &);
+bool CheckWritingData(ofstream &);
 void ReplaceInFiles(ifstream &, ofstream &, char * []);
 void ReplaceStrToStrInLine(string &, const string &, const string &);
 
 int main(int argc, char * argv[])
 {
-	ifstream input(argv[1]);
-	ofstream output(argv[2]);
-	try
+	if (CheckArgCount(argc))
 	{
-		CheckArgCount(argc);
-		CheckInputFile(input, argv[1]);
-		CheckOutputFile(output, argv[2]);
-		CheckStrNotEmpty(argv[3]);
-	}
-	catch (int)
-	{
+		cout << "Invalid arguments count\n"
+			<< "Usage: replace.exe <input file> <output file> <search string> <replace string>\n";
 		return 1;
 	}
-	
+	ifstream input(argv[1]);
+	if (CheckInputFile(input))
+	{
+		cout << "Failed to open " << argv[1] << " for reading\n";
+		return 1;
+	}
+	ofstream output(argv[2]);
+	if (CheckOutputFile(output))
+	{
+		cout << "Failed to open " << argv[1] << " for writeng\n";
+		return 1;
+	}
+	if (CheckStrNotEmpty(argv[3]))
+	{
+		cout << "Failed to search empty string\n";
+		return 1;
+	}
+
 	ReplaceInFiles(input, output, argv);
 	CheckWritingData(output);
 
 	return 0;
 }
 
-void CheckArgCount(int argc)
+bool CheckArgCount(int argc)
 {
-	if (argc != MAX_NUM_OF_ARG)
-	{
-		cout << "Invalid arguments count\n"
-		     << "Usage: replace.exe <input file> <output file> <search string> <replace string>\n";
-		throw 1;
-	}
+	return (argc != MAX_NUM_OF_ARG);
 }
 
-void CheckInputFile(ifstream & input, const string  & fileName)
+bool CheckInputFile(ifstream & input)
 {
-	if (!input.is_open())
-	{
-		cout << "Failed to open " << fileName << " for reading\n";
-		throw 1;
-	}
+	return (!input.is_open());
 }
 
-void CheckOutputFile(ofstream & output, const string  & fileName)
+bool CheckOutputFile(ofstream & output)
 {
-	if (!output.is_open())
-	{
-		cout << "Failed to open " << fileName << " for writing\n";
-		throw 1;
-	}
+	return (!output.is_open());
 }
 
-void CheckStrNotEmpty(const string & searchStr)
+bool CheckStrNotEmpty(const string & searchStr)
 {
-	if (searchStr == "")
-	{
-		cout << "Failed to search empty string\n";
-		throw 1;
-	}
+	return (searchStr == "");
 }
 
-void CheckWritingData(ofstream & output)
+bool CheckWritingData(ofstream & output)
 {
 	if (!output.flush())
 	{

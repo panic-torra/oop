@@ -7,12 +7,12 @@
 using namespace std;
 
 void CheckArgCount(int);
-void CheckInputFile(ifstream &, string);
-void CheckOutputFile(ofstream &, string);
-void CheckStrNotEmpty(string);
+void CheckInputFile(ifstream &, const string);
+void CheckOutputFile(ofstream &, const string);
+void CheckStrNotEmpty(const string);
 void CheckWritingData(ofstream &);
 void ReplaceInFiles(ifstream &, ofstream &, char * []);
-void ReplaceStrToStrInLine(string &, string, string);
+void ReplaceStrToStrInLine(string &, const string, const string);
 
 int main(int argc, char * argv[])
 {
@@ -41,7 +41,7 @@ void CheckArgCount(int argc)
 	}
 }
 
-void CheckInputFile(ifstream & input, string fileName)
+void CheckInputFile(ifstream & input, const string fileName)
 {
 	if (!input.is_open())
 	{
@@ -50,7 +50,7 @@ void CheckInputFile(ifstream & input, string fileName)
 	}
 }
 
-void CheckOutputFile(ofstream & output, string fileName)
+void CheckOutputFile(ofstream & output, const string fileName)
 {
 	if (!output.is_open())
 	{
@@ -59,7 +59,7 @@ void CheckOutputFile(ofstream & output, string fileName)
 	}
 }
 
-void CheckStrNotEmpty(string searchStr)
+void CheckStrNotEmpty(const string searchStr)
 {
 	if (searchStr == "")
 	{
@@ -91,7 +91,7 @@ void ReplaceInFiles(ifstream & input, ofstream & output, char * argv[])
 	}
 }
 
-void ReplaceStrToStrInLine(string & currString, string searchStr, string replaceStr)
+void ReplaceStrToStrInLine(string & currString, const string searchStr, const string replaceStr)
 {
 	const int replaceStrLen = replaceStr.length();
 	const int searchStrLen = searchStr.length();

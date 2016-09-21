@@ -28,9 +28,6 @@ IF NOT ERRORLEVEL 1 goto err
 fc.exe %TEMP%\non-existing.txt expected-output-when-input-file-is-missing.txt
 if ERRORLEVEL 1 goto err
 
-%PROGRAM% input.txt %PROGRAM% > %TEMP%\output.txt
-if NOT ERRORLEVEL 1 goto err  
-
 echo Program testing succeeded
 exit 0
 

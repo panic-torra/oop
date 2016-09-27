@@ -90,17 +90,17 @@ void ReplaceStrToStrInLine(string & currStr, const string & searchStr, const str
 	const int searchStrLen = searchStr.length();
 	const int currStrLen = currStr.length();
 
-	size_t currPos = 0;
 	size_t lastCopiedPos = 0;
+	size_t currPos = currStr.find(searchStr, 0);
 
 	string resultStr = "";
 
-	while (((currPos = currStr.find(searchStr, currPos)) != string::npos) || (lastCopiedPos != currStrLen))
+	while ((currPos != string::npos) || (lastCopiedPos != currStrLen))
 	{
 		if (currPos == lastCopiedPos)
 		{
 			resultStr += replaceStr;
-			currPos += searchStrLen;
+			currPos = currStr.find(searchStr, currPos + searchStrLen);
 			lastCopiedPos += searchStrLen;
 		}
 		else
@@ -108,6 +108,7 @@ void ReplaceStrToStrInLine(string & currStr, const string & searchStr, const str
 			resultStr += currStr[lastCopiedPos];
 			++lastCopiedPos;
 		}
+		
 	}
 	currStr = resultStr;
 }

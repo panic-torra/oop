@@ -10,7 +10,7 @@ bool CheckArgCount(int);
 bool CheckInputFile(ifstream &);
 bool CheckOutputFile(ofstream &);
 bool CheckStrNotEmpty(const string &);
-int TryToReplaceInFiles(char * []);
+int TryToReplaceInFile(char * []);
 void ReplaceStrToStrInLine(string &, const string &, const string &);
 
 int main(int argc, char * argv[])
@@ -22,7 +22,7 @@ int main(int argc, char * argv[])
 		return 1;
 	}
 
-	return TryToReplaceInFiles(argv);
+	return TryToReplaceInFile(argv);
 }
 
 bool CheckArgCount(int argc)
@@ -45,7 +45,7 @@ bool CheckStrNotEmpty(const string & searchStr)
 	return (searchStr == "");
 }
 
-int TryToReplaceInFiles(char * argv[])
+int TryToReplaceInFile(char * argv[])
 {
 	ifstream input(argv[1]);
 	if (CheckInputFile(input))

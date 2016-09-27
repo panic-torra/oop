@@ -10,7 +10,7 @@ bool CheckArgCount(int);
 bool CheckInputFile(ifstream &);
 bool CheckOutputFile(ofstream &);
 bool CheckStrNotEmpty(const string &);
-void ReplaceInFiles(ifstream &, ofstream &, char * []);
+int TryToReplaceInFiles(char * []);
 void ReplaceStrToStrInLine(string &, const string &, const string &);
 
 int main(int argc, char * argv[])
@@ -21,27 +21,8 @@ int main(int argc, char * argv[])
 			<< "Usage: replace.exe <input file> <output file> <search string> <replace string>\n";
 		return 1;
 	}
-	ifstream input(argv[1]);
-	if (CheckInputFile(input))
-	{
-		cout << "Failed to open " << argv[1] << " for reading\n";
-		return 1;
-	}
-	ofstream output(argv[2]);
-	if (CheckOutputFile(output))
-	{
-		cout << "Failed to open " << argv[2] << " for writeng\n";
-		return 1;
-	}
-	if (CheckStrNotEmpty(argv[3]))
-	{
-		cout << "Failed to search empty string\n";
-		return 1;
-	}
 
-	ReplaceInFiles(input, output, argv);
-
-	return 0;
+	return TryToReplaceInFiles(argv);
 }
 
 bool CheckArgCount(int argc)
@@ -64,11 +45,28 @@ bool CheckStrNotEmpty(const string & searchStr)
 	return (searchStr == "");
 }
 
-void ReplaceInFiles(ifstream & input, ofstream & output, char * argv[])
+int TryToReplaceInFiles(char * argv[])
 {
+	ifstream input(argv[1]);
+	if (CheckInputFile(input))
+	{
+		cout << "Failed to open " << argv[1] << " for reading\n";
+		return 1;
+	}
+	ofstream output(argv[2]);
+	if (CheckOutputFile(output))
+	{
+		cout << "Failed to open " << argv[2] << " for writeng\n";
+		return 1;
+	}
+	if (CheckStrNotEmpty(argv[3]))
+	{
+		cout << "Failed to search empty string\n";
+		return 1;
+	}
+
 	const string searchStr  = argv[3];
 	const string replaceStr = argv[4];
-
 	string currStr;
 
 	while (getline(input, currStr))
@@ -80,8 +78,10 @@ void ReplaceInFiles(ifstream & input, ofstream & output, char * argv[])
 	if (!output.flush())
 	{
 		cout << "Failed to save data on disk\n";
-		throw 1;
+		return 1;
 	}
+
+	return 0;
 }
 
 void ReplaceStrToStrInLine(string & currStr, const string & searchStr, const string & replaceStr)
@@ -92,7 +92,6 @@ void ReplaceStrToStrInLine(string & currStr, const string & searchStr, const str
 
 	size_t lastCopiedPos = 0;
 	size_t currPos = currStr.find(searchStr, 0);
-
 	string resultStr = "";
 
 	while ((currPos != string::npos) || (lastCopiedPos != currStrLen))
@@ -108,7 +107,6 @@ void ReplaceStrToStrInLine(string & currStr, const string & searchStr, const str
 			resultStr += currStr[lastCopiedPos];
 			++lastCopiedPos;
 		}
-		
 	}
 	currStr = resultStr;
 }

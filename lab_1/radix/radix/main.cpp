@@ -1,37 +1,28 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#define MAX_NUM_OF_ARG 3
+#define MAX_NUM_OF_ARG 4
 
 using namespace std;
 
 bool CheckArgCount(int);
-bool CheckInputFile(ifstream &);
-bool CheckOutputFile(ofstream &);
-bool CheckArgNotEmpty(const string &);
+string convertValueFromSrcRadixToDstRadix(const string &, const string &, const string &);
 
 int main(int argc, char* argv[])
 {
-	CheckArgCount(argc);
-
-	ifstream input(argv[1]);
-	if (CheckInputFile(input))
+	if (CheckArgCount(argc))
 	{
-		cout << "Failed to open " << argv[1] << " for reading\n";
-		return 1;
-	}
-	ofstream output(argv[2]);
-	if (CheckOutputFile(output))
-	{
-		cout << "Failed to open " << argv[2] << " for writeng\n";
-		return 1;
-	}
-	if (CheckArgNotEmpty(argv[3]))
-	{
-		cout << "Failed to work with empty string. Expected number.\n";
+		cout << "Invalid arguments count\n"
+			<< "Usage: radix.exe <source radix> <destination radix> <value>\n";
 		return 1;
 	}
 
+    const string srcRadix = argv[1];
+	const string dstRadix = argv[2];
+	const string value = argv[3];
+
+	cout << convertValueFromSrcRadixToDstRadix(srcRadix, dstRadix, value) << "\n";
+	return 0;
 }
 
 bool CheckArgCount(int argc)
@@ -39,17 +30,7 @@ bool CheckArgCount(int argc)
 	return (argc != MAX_NUM_OF_ARG);
 }
 
-bool CheckInputFile(ifstream & input)
+string convertValueFromSrcRadixToDstRadix(const string & srcRadix, const string &  dstRadix, const string &  value)
 {
-	return (!input.is_open());
-}
 
-bool CheckOutputFile(ofstream & output)
-{
-	return (!output.is_open());
-}
-
-bool CheckArgNotEmpty(const string & arg)
-{
-	return (arg == "");
 }

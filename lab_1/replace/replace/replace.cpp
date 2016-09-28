@@ -84,7 +84,6 @@ int TryToReplaceInFile(const string & inputFileName, const string & outputFileNa
 
 void ReplaceStrToStrInLine(string & currStr, const string & searchStr, const string & replaceStr)
 {
-	const size_t replaceStrLen = replaceStr.length();
 	const size_t searchStrLen = searchStr.length();
 	const size_t currStrLen = currStr.length();
 

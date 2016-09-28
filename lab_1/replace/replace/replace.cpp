@@ -10,7 +10,7 @@ bool CheckArgCount(int);
 bool CheckInputFile(ifstream &);
 bool CheckOutputFile(ofstream &);
 bool CheckStrNotEmpty(const string &);
-int TryToReplaceInFile(char * []);
+int TryToReplaceInFile(const string &, const string &, const string &, const string &);
 void ReplaceStrToStrInLine(string &, const string &, const string &);
 
 int main(int argc, char * argv[])
@@ -22,7 +22,7 @@ int main(int argc, char * argv[])
 		return 1;
 	}
 
-	return TryToReplaceInFile(argv);
+	return TryToReplaceInFile(argv[1], argv[2], argv[3], argv[4]);
 }
 
 bool CheckArgCount(int argc)
@@ -45,28 +45,26 @@ bool CheckStrNotEmpty(const string & searchStr)
 	return (searchStr == "");
 }
 
-int TryToReplaceInFile(char * argv[])
+int TryToReplaceInFile(const string & inputFileName, const string & outputFileName, const string & searchStr, const string & replaceStr)
 {
-	ifstream input(argv[1]);
+	ifstream input(inputFileName);
 	if (CheckInputFile(input))
 	{
-		cout << "Failed to open " << argv[1] << " for reading\n";
+		cout << "Failed to open " << inputFileName << " for reading\n";
 		return 1;
 	}
-	ofstream output(argv[2]);
+	ofstream output(outputFileName);
 	if (CheckOutputFile(output))
 	{
-		cout << "Failed to open " << argv[2] << " for writeng\n";
+		cout << "Failed to open " << outputFileName << " for writeng\n";
 		return 1;
 	}
-	if (CheckStrNotEmpty(argv[3]))
+	if (CheckStrNotEmpty(searchStr))
 	{
 		cout << "Failed to search empty string\n";
 		return 1;
 	}
 
-	const string searchStr  = argv[3];
-	const string replaceStr = argv[4];
 	string currStr;
 
 	while (getline(input, currStr))
@@ -86,27 +84,24 @@ int TryToReplaceInFile(char * argv[])
 
 void ReplaceStrToStrInLine(string & currStr, const string & searchStr, const string & replaceStr)
 {
-	const int replaceStrLen = replaceStr.length();
-	const int searchStrLen = searchStr.length();
-	const int currStrLen = currStr.length();
+	const size_t replaceStrLen = replaceStr.length();
+	const size_t searchStrLen = searchStr.length();
+	const size_t currStrLen = currStr.length();
 
 	size_t lastCopiedPos = 0;
 	size_t currPos = currStr.find(searchStr, 0);
-	string resultStr = "";
+	string resultStr;
 
-	while ((currPos != string::npos) || (lastCopiedPos != currStrLen))
+	while (currPos != string::npos)
 	{
-		if (currPos == lastCopiedPos)
-		{
-			resultStr += replaceStr;
-			currPos = currStr.find(searchStr, currPos + searchStrLen);
-			lastCopiedPos += searchStrLen;
-		}
-		else
-		{
-			resultStr += currStr[lastCopiedPos];
-			++lastCopiedPos;
-		}
+		resultStr.append(currStr, lastCopiedPos , currPos - lastCopiedPos);
+		resultStr += replaceStr;
+		lastCopiedPos = currPos + searchStrLen;
+		currPos = currStr.find(searchStr, lastCopiedPos);
+	}
+	if (lastCopiedPos != currStrLen)
+	{
+		resultStr.append(currStr, lastCopiedPos);
 	}
 	currStr = resultStr;
-}
+} 

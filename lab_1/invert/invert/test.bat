@@ -1,31 +1,25 @@
 set PROGRAM="%~1"
 
-%PROGRAM% empty.txt %TEMP%\empty.txt
+rem check empty file
+%PROGRAM% input\empty.txt > %TEMP%\empty.txt
 if NOT ERRORLEVEL 1 goto err         
 
-%PROGRAM% input.txt %TEMP%\output.txt 
+rem check matrix with determinant = 0
+%PROGRAM% input\zero.txt > %TEMP%\zero.txt 
 if ERRORLEVEL 1 goto err
-fc.exe %TEMP%\output.txt mama.txt
-if ERRORLEVEL 1 goto err
-
-%PROGRAM% input.txt %TEMP%\output.txt "1231234" "LOOK"
-if ERRORLEVEL 1 goto err
-fc.exe %TEMP%\output.txt nums.txt
+fc.exe %TEMP%\zero.txt output\zero.txt
 if ERRORLEVEL 1 goto err
 
-%PROGRAM% input.txt %TEMP%\output.txt "heathens" ""
+rem check matrix with determinant close to 0
+%PROGRAM% input\small.txt > %TEMP%\small.txt 
 if ERRORLEVEL 1 goto err
-fc.exe %TEMP%\output.txt without_heathens.txt
-if ERRORLEVEL 1 goto err
-
-%PROGRAM% input.txt %TEMP%\output.txt "You" "NO ONE"
-if ERRORLEVEL 1 goto err
-fc.exe %TEMP%\output.txt without_you.txt
+fc.exe %TEMP%\small.txt output\small.txt
 if ERRORLEVEL 1 goto err
 
-%PROGRAM% non-existing.txt %TEMP%\output.txt "search string" "replace string" > %TEMP%\non-existing.txt
-IF NOT ERRORLEVEL 1 goto err
-fc.exe %TEMP%\non-existing.txt expected-output-when-input-file-is-missing.txt
+rem check normal matrix
+%PROGRAM% input.txt > %TEMP%\output.txt
+if ERRORLEVEL 1 goto err
+fc.exe %TEMP%\output.txt output\output.txt
 if ERRORLEVEL 1 goto err
 
 echo Program testing succeeded

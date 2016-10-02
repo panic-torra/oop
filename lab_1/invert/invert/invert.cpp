@@ -15,7 +15,9 @@ bool CheckInputFile(ifstream &);
 bool TryToGetInvertMatrix(ifstream &);
 void ReadMatrixFromFile(ifstream &, Matrix &);
 double GetDeterminant(const Matrix &);
-void PrintInversMatrix(const Matrix &, const double &);
+double GetMinor(const Matrix &, const int &, const int &);
+void MakeInverseMatrix(const Matrix &, const double &);
+void PrintMatrix(const Matrix &);
 
 int main(int argc, char * argv[])
 {
@@ -35,16 +37,6 @@ int main(int argc, char * argv[])
 	return TryToGetInvertMatrix(input);
 }
 
-bool CheckArgCount(int argc)
-{
-	return (argc != MAX_NUM_OF_ARG);
-}
-
-bool CheckInputFile(ifstream & input)
-{
-	return (!input.is_open());
-}
-
 bool TryToGetInvertMatrix(ifstream & matrixFile)
 {
 	Matrix srcMatrix;
@@ -57,7 +49,7 @@ bool TryToGetInvertMatrix(ifstream & matrixFile)
 		return 1;
 	}
 
-	PrintInversMatrix(srcMatrix, determinant);
+	MakeInverseMatrix(srcMatrix, determinant);
 	return 0;
 }
 
@@ -65,7 +57,7 @@ void ReadMatrixFromFile(ifstream & matrixFile, Matrix & matrix)
 {
 	for (int i = 0; i < NUM_OF_ROWS_IN_MATRIX; ++i)
 	{
-		for (int j = 0; j < NUM_OF_ROWS_IN_MATRIX; ++j)
+		for (int j = 0; j < NUM_OF_COLUMNS_IN_MATRIX; ++j)
 		{
 			matrixFile >> matrix[i][j];
 		}
@@ -74,15 +66,61 @@ void ReadMatrixFromFile(ifstream & matrixFile, Matrix & matrix)
 
 double GetDeterminant(const Matrix & matrix)
 {
-	return matrix[0][0] * matrix[1][1] * matrix[2][2]
-		 + matrix[0][1] * matrix[1][2] * matrix[2][0]
-		 + matrix[0][2] * matrix[1][0] * matrix[2][1]
-		 - matrix[0][2] * matrix[1][1] * matrix[2][0]
-		 - matrix[0][0] * matrix[1][2] * matrix[2][1]
-		 - matrix[0][1] * matrix[1][0] * matrix[2][2];
+	double determinant = 0;
+	const int row = 0;
+	short sign = 1;
+
+	for (int col = 0; col < 3; ++col)
+	{
+		determinant += sign * matrix[row][col] * GetMinor(matrix, row, col);
+		sign *= -1;
+	}
+
+	return determinant;
 }
 
-void PrintInversMatrix(const Matrix & srcMatrix, const double & determinant)
+double GetMinor(const Matrix & matrix, const int & row, const int & col)
+{
+	double minorElem[4];
+	int currElem = 0;
+
+	for (int i = 0; i < 3; ++i)
+	{
+		for (int j = 0; j < 3; ++j)
+		{
+			if ((i != row) && (j != col))
+			{
+				minorElem[currElem] = matrix[i][j];
+				++currElem;
+			}
+		}
+	}
+
+	return (minorElem[0] * minorElem[3]) - (minorElem[1] * minorElem[2]);
+}
+
+void MakeInverseMatrix(const Matrix & srcMatrix, const double & determinant)
 {
 
+}
+
+void PrintMatrix(const Matrix & matrix)
+{
+	for (int i = 0; i < NUM_OF_ROWS_IN_MATRIX; ++i)
+	{
+		for (int j = 0; j < NUM_OF_COLUMNS_IN_MATRIX; ++j)
+		{
+			cout << matrix[i][j];
+		}
+	}
+}
+
+bool CheckArgCount(int argc)
+{
+	return (argc != MAX_NUM_OF_ARG);
+}
+
+bool CheckInputFile(ifstream & input)
+{
+	return (!input.is_open());
 }

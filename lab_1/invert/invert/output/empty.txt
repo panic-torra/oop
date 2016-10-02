@@ -1,1 +1,1 @@
-input\empty.txt is empty
+input\empty.txt is empty.

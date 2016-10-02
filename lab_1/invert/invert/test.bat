@@ -10,6 +10,11 @@ if NOT ERRORLEVEL 1 goto err
 fc.exe %TEMP%\empty.txt output\empty.txt
 if ERRORLEVEL 1 goto err
 
+%PROGRAM% input\fail-in-reading.txt > %TEMP%\fail-in-reading.txt
+if NOT ERRORLEVEL 1 goto err
+fc.exe %TEMP%\fail-in-reading.txt output\fail-in-reading.txt
+if ERRORLEVEL 1 goto err
+
 %PROGRAM% input\non-existing.txt > %TEMP%\non-existing.txt
 IF NOT ERRORLEVEL 1 goto err
 fc.exe %TEMP%\non-existing.txt output\expected-output-when-input-file-is-missing.txt

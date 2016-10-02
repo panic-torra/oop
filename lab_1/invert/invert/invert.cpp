@@ -7,18 +7,19 @@
 #define MAX_NUM_OF_ARG 2
 #define NUM_OF_ROWS_IN_MATRIX 3
 #define NUM_OF_COLUMNS_IN_MATRIX 3
+#define EPS 0.0001
 
 using namespace std;
 
 typedef double Matrix[NUM_OF_ROWS_IN_MATRIX][NUM_OF_COLUMNS_IN_MATRIX];
 
-bool CheckArgCount(const int&);
+bool CheckArgCount(const short&);
 bool CheckInputFile(const ifstream&);
 bool IsFileEmpty(ifstream& file);
 bool TryToGetInvertMatrix(ifstream&);
 bool TryToReadMatrixFromFile(ifstream&, Matrix&);
 double GetDeterminant(const Matrix&);
-double GetMinor(const Matrix&, const int&, const int&);
+double GetMinor2x2(const Matrix&, const short&, const short&);
 void MakeInverseMatrix(const Matrix&, Matrix&, const double&);
 void PrintMatrix(const Matrix&);
 
@@ -27,7 +28,7 @@ int main(int argc, char * argv[])
     if (CheckArgCount(argc))
     {
         cout << "Invalid arguments count" << endl
-            << "Usage: invert.exe <matrix.txt>";
+            << "Usage: invert.exe <matrix.txt>" << endl;
         return 1;
     }
     ifstream input(argv[1]);
@@ -56,7 +57,7 @@ bool TryToGetInvertMatrix(ifstream& matrixFile)
     };
 
     double determinant = GetDeterminant(srcMatrix);
-    if (determinant == 0)
+    if (fabs(determinant - 0) < EPS)
     {
         cout << "The determinant of the matrix is 0, so the inverse matrix does not exist." << endl;
         return 1;
@@ -69,9 +70,9 @@ bool TryToGetInvertMatrix(ifstream& matrixFile)
 
 bool TryToReadMatrixFromFile(ifstream& matrixFile, Matrix& matrix)
 {
-    for (int i = 0; i < NUM_OF_ROWS_IN_MATRIX; ++i)
+    for (short i = 0; i < NUM_OF_ROWS_IN_MATRIX; ++i)
     {
-        for (int j = 0; j < NUM_OF_COLUMNS_IN_MATRIX; ++j)
+        for (short j = 0; j < NUM_OF_COLUMNS_IN_MATRIX; ++j)
         {
             if (!matrixFile.eof())
             {
@@ -89,12 +90,12 @@ bool TryToReadMatrixFromFile(ifstream& matrixFile, Matrix& matrix)
 double GetDeterminant(const Matrix& matrix)
 {
     double determinant = 0;
-    const int row = 0;
+    const short i = 0;
     short sign = 1;
 
-    for (int col = 0; col < NUM_OF_COLUMNS_IN_MATRIX; ++col)
+    for (short j = 0; j < NUM_OF_COLUMNS_IN_MATRIX; ++j)
     {
-        determinant += sign * matrix[row][col] * GetMinor(matrix, row, col);
+        determinant += sign * matrix[i][j] * GetMinor2x2(matrix, i, j);
         sign *= -1;
     }
 
@@ -104,40 +105,40 @@ double GetDeterminant(const Matrix& matrix)
 void MakeInverseMatrix(const Matrix& srcMatrix, Matrix& dstMatrix, const double& determinant)
 {
     short sign = 1;
-    for (int i = 0; i < NUM_OF_ROWS_IN_MATRIX; ++i)
+    for (short i = 0; i < NUM_OF_ROWS_IN_MATRIX; ++i)
     {
-        for (int j = 0; j < NUM_OF_COLUMNS_IN_MATRIX; ++j)
+        for (short j = 0; j < NUM_OF_COLUMNS_IN_MATRIX; ++j)
         {
-            dstMatrix[j][i] = sign * (1 / determinant) * GetMinor(srcMatrix, i, j);
+            dstMatrix[j][i] = sign * (1 / determinant) * GetMinor2x2(srcMatrix, i, j);
             sign *= -1;
         }
     }
 }
 
-double GetMinor(const Matrix& matrix, const int& row, const int& col)
+double GetMinor2x2(const Matrix& matrix, const short& row, const short& col)
 {
-    double minorElem[4];
-    int currElem = 0;
+    double minorElems[4];
+    short currElem = 0;
 
-    for (int i = 0; i < 3; ++i)
+    for (short i = 0; i < NUM_OF_ROWS_IN_MATRIX; ++i)
     {
-        for (int j = 0; j < 3; ++j)
+        for (short j = 0; j < NUM_OF_COLUMNS_IN_MATRIX; ++j)
         {
             if ((i != row) && (j != col))
             {
-                minorElem[currElem] = matrix[i][j];
-                ++currElem;
+                minorElems[currElem] = matrix[i][j];
+				++currElem;
             }
         }
     }
-    return (minorElem[0] * minorElem[3]) - (minorElem[1] * minorElem[2]);
+    return (minorElems[0] * minorElems[3]) - (minorElems[1] * minorElems[2]);
 }
 
 void PrintMatrix(const Matrix& matrix)
 {
-    for (int i = 0; i < NUM_OF_ROWS_IN_MATRIX; ++i)
+    for (short i = 0; i < NUM_OF_ROWS_IN_MATRIX; ++i)
     {
-        for (int j = 0; j < NUM_OF_COLUMNS_IN_MATRIX; ++j)
+        for (short j = 0; j < NUM_OF_COLUMNS_IN_MATRIX; ++j)
         {
             cout << fixed << setprecision(3) << matrix[i][j] << ' ';
         }
@@ -145,7 +146,7 @@ void PrintMatrix(const Matrix& matrix)
     }
 }
 
-bool CheckArgCount(const int& argc)
+bool CheckArgCount(const short& argc)
 {
     return (argc != MAX_NUM_OF_ARG);
 }

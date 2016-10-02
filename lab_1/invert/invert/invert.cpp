@@ -73,7 +73,7 @@ bool TryToReadMatrixFromFile(ifstream& matrixFile, Matrix& matrix)
     {
         for (int j = 0; j < NUM_OF_COLUMNS_IN_MATRIX; ++j)
         {
-            if(!matrixFile.eof())
+            if (!matrixFile.eof())
             {
                 matrixFile >> matrix[i][j];
             }
@@ -92,7 +92,7 @@ double GetDeterminant(const Matrix& matrix)
     const int row = 0;
     short sign = 1;
 
-    for (int col = 0; col < 3; ++col)
+    for (int col = 0; col < NUM_OF_COLUMNS_IN_MATRIX; ++col)
     {
         determinant += sign * matrix[row][col] * GetMinor(matrix, row, col);
         sign *= -1;
@@ -123,7 +123,7 @@ double GetMinor(const Matrix& matrix, const int& row, const int& col)
     {
         for (int j = 0; j < 3; ++j)
         {
-            if ((i != row)&& (j != col))
+            if ((i != row) && (j != col))
             {
                 minorElem[currElem] = matrix[i][j];
                 ++currElem;

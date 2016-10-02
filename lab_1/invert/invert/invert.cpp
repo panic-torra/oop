@@ -16,7 +16,7 @@ typedef double Matrix[NUM_OF_ROWS_IN_MATRIX][NUM_OF_COLUMNS_IN_MATRIX];
 bool CheckArgCount(const short&);
 bool CheckInputFile(const ifstream&);
 bool IsFileEmpty(ifstream&);
-bool TryToGetInvertMatrix(ifstream&);
+int TryToGetInvertMatrix(ifstream&);
 bool TryToReadMatrixFromFile(ifstream&, Matrix&);
 double GetDeterminant(const Matrix&);
 double GetMinor2x2(const Matrix&, const short&, const short&);
@@ -46,7 +46,7 @@ int main(int argc, char * argv[])
     return TryToGetInvertMatrix(input);
 }
 
-bool TryToGetInvertMatrix(ifstream& matrixFile)
+int TryToGetInvertMatrix(ifstream& matrixFile)
 {
     Matrix srcMatrix;
     Matrix dstMatrix;
@@ -81,12 +81,12 @@ bool TryToReadMatrixFromFile(ifstream& matrixFile, Matrix& matrix)
             }
             else
             {
-                return 0;
+                return false;
             }
         }
     }
 
-    return 1;
+    return true;
 }
 
 double GetDeterminant(const Matrix& matrix)

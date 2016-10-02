@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <iomanip>
+
 #define MAX_NUM_OF_ARG 2
 #define NUM_OF_ROWS_IN_MATRIX 3
 #define NUM_OF_COLUMNS_IN_MATRIX 3
@@ -12,11 +14,12 @@ typedef double Matrix[NUM_OF_ROWS_IN_MATRIX][NUM_OF_COLUMNS_IN_MATRIX];
 
 bool CheckArgCount(int);
 bool CheckInputFile(ifstream &);
+bool IsFileEmpty(ifstream& file);
 bool TryToGetInvertMatrix(ifstream &);
 void ReadMatrixFromFile(ifstream &, Matrix &);
 double GetDeterminant(const Matrix &);
 double GetMinor(const Matrix &, const int &, const int &);
-void MakeInverseMatrix(const Matrix &, const double &);
+void MakeInverseMatrix(const Matrix &, Matrix&, const double &);
 void PrintMatrix(const Matrix &);
 
 int main(int argc, char * argv[])
@@ -24,13 +27,18 @@ int main(int argc, char * argv[])
 	if (CheckArgCount(argc))
 	{
 		cout << "Invalid arguments count\n"
-			<< "Usage: invert.txt <matrix.txt>\n";
+			<< "Usage: invert.exe <matrix.txt>\n";
 		return 1;
 	}
 	ifstream input(argv[1]);
 	if (CheckInputFile(input))
 	{
 		cout << "Failed to open " << argv[1] << " for reading\n";
+		return 1;
+	}
+	if (IsFileEmpty(input))
+	{
+		cout << argv[1] << " is empty\n";
 		return 1;
 	}
 
@@ -40,6 +48,7 @@ int main(int argc, char * argv[])
 bool TryToGetInvertMatrix(ifstream & matrixFile)
 {
 	Matrix srcMatrix;
+	Matrix dstMatrix;
 	ReadMatrixFromFile(matrixFile, srcMatrix);
 
 	double determinant = GetDeterminant(srcMatrix);
@@ -49,7 +58,8 @@ bool TryToGetInvertMatrix(ifstream & matrixFile)
 		return 1;
 	}
 
-	MakeInverseMatrix(srcMatrix, determinant);
+	MakeInverseMatrix(srcMatrix, dstMatrix, determinant);
+	PrintMatrix(dstMatrix);
 	return 0;
 }
 
@@ -95,13 +105,20 @@ double GetMinor(const Matrix & matrix, const int & row, const int & col)
 			}
 		}
 	}
-
 	return (minorElem[0] * minorElem[3]) - (minorElem[1] * minorElem[2]);
 }
 
-void MakeInverseMatrix(const Matrix & srcMatrix, const double & determinant)
+void MakeInverseMatrix(const Matrix & srcMatrix, Matrix & dstMatrix, const double & determinant)
 {
-
+	short sign = 1;
+	for (int i = 0; i < NUM_OF_ROWS_IN_MATRIX; ++i)
+	{
+		for (int j = 0; j < NUM_OF_COLUMNS_IN_MATRIX; ++j)
+		{
+			dstMatrix[j][i] = sign * (1 / determinant) * GetMinor(srcMatrix, i, j);
+			sign *= -1;
+		}
+	}
 }
 
 void PrintMatrix(const Matrix & matrix)
@@ -110,8 +127,9 @@ void PrintMatrix(const Matrix & matrix)
 	{
 		for (int j = 0; j < NUM_OF_COLUMNS_IN_MATRIX; ++j)
 		{
-			cout << matrix[i][j];
+			cout << fixed << setprecision(3) << matrix[i][j] << ' ';
 		}
+		cout << "\n";
 	}
 }
 
@@ -123,4 +141,9 @@ bool CheckArgCount(int argc)
 bool CheckInputFile(ifstream & input)
 {
 	return (!input.is_open());
+}
+
+bool IsFileEmpty(ifstream &file)
+{
+    return file.peek() == ifstream::traits_type::eof();
 }

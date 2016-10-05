@@ -36,7 +36,7 @@ Matrix InitMatrix()
 	{
 		for (size_t j = 0; j < NUM_OF_COLUMNS_IN_MATRIX; ++j)
 		{
-			matrix.at(i).push_back(0);
+			matrix[i].push_back(0);
 		}
 	}
 
@@ -49,14 +49,11 @@ bool TryToReadMatrixFromFile(ifstream& matrixFile, Matrix& matrix)
 	{
 		for (size_t j = 0; j < NUM_OF_COLUMNS_IN_MATRIX; ++j)
 		{
-			if (!matrixFile.eof())
-			{
-				matrixFile >> matrix.at(i).at(j);
-			}
-			else
+			if (matrixFile.eof())
 			{
 				return false;
 			}
+			matrixFile >> matrix[i][j];
 		}
 	}
 
@@ -80,7 +77,7 @@ double GetMinor2x2(const Matrix& matrix, const size_t row, const size_t col)
 			{
 				continue;
 			}
-			minorElems.push_back(matrix.at(i).at(j));
+			minorElems.push_back(matrix[i][j]);
 			++currElem;
 		}
 	}
@@ -96,7 +93,7 @@ double GetDeterminant(const Matrix& matrix)
 
 	for (size_t j = 0; j < NUM_OF_COLUMNS_IN_MATRIX; ++j)
 	{
-		determinant += sign * matrix.at(i).at(j) * GetMinor2x2(matrix, i, j);
+		determinant += sign * matrix[i][j] * GetMinor2x2(matrix, i, j);
 		sign *= -1;
 	}
 
@@ -110,7 +107,7 @@ void MakeInverseMatrix(const Matrix& srcMatrix, Matrix& dstMatrix, const double 
 	{
 		for (size_t j = 0; j < NUM_OF_COLUMNS_IN_MATRIX; ++j)
 		{
-			dstMatrix.at(j).at(i) = sign * (1 / determinant) * GetMinor2x2(srcMatrix, i, j);
+			dstMatrix[j][i] = sign * (1 / determinant) * GetMinor2x2(srcMatrix, i, j);
 			sign *= -1;
 		}
 	}
@@ -122,7 +119,7 @@ void PrintMatrix(const Matrix& matrix)
 	{
 		for (size_t j = 0; j < NUM_OF_COLUMNS_IN_MATRIX; ++j)
 		{
-			cout << fixed << setprecision(3) << matrix.at(i).at(j) << ' ';
+			cout << fixed << setprecision(3) << matrix[i][j] << ' ';
 		}
 		cout << endl;
 	}

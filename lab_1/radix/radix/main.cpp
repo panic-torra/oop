@@ -9,12 +9,14 @@ const int MAX_RADIX = 36;
 using namespace std;
 
 bool CheckRadix(string& radix);
-int StringToInt(const string& str, bool& wasError);
+int StringToInt(const string str, bool& wasError);
 string IntToString(const int num);
 int CharToDigit(const char ch);
 char DigitToChar(const int digit);
 void ReverseString(string& str);
-string convertValueFromSrcRadixToDstRadix(const string& srcRadix, const string&  dstRadix, const string&  value);
+string convertValueFromSrcRadixToDstRadix(const string& srcRadix, const string&  dstRadix, int value);
+int convertValueToDec(const string& srcRadix, int& value);
+int convertValueTo(const string& dstRadix, int& value);
 
 
 int main(int argc, char* argv[])
@@ -28,7 +30,7 @@ int main(int argc, char* argv[])
 
     string srcRadix = argv[1];
 	string dstRadix = argv[2];
-	if ((CheckRadix(srcRadix)) || (CheckRadix(dstRadix)))
+	if (!(CheckRadix(srcRadix)) || !(CheckRadix(dstRadix)))
 	{
 		cout << "Invalid radix\n"
 			<< "Radix in [2; 36]\n";
@@ -36,28 +38,62 @@ int main(int argc, char* argv[])
 	}
 
 	const string value = argv[3];
+	if (srcRadix == dstRadix)
+	{
+		cout << value << "\n";
+		return 1;
+	}
 
-	cout << convertValueFromSrcRadixToDstRadix(srcRadix, dstRadix, value) << "\n";
+	bool wasError = false;
+	int srcNum = StringToInt(value, wasError);
+	if (wasError)
+	{
+		cout << "Overflow: |value| > max integer\n";
+		return 1;
+	}
+
+	cout << convertValueFromSrcRadixToDstRadix(srcRadix, dstRadix, srcNum) << "\n";
 	return 0;
 }
 
-string convertValueFromSrcRadixToDstRadix(const string& srcRadix, const string&  dstRadix, const string&  value)
+string convertValueFromSrcRadixToDstRadix(const string& srcRadix, const string&  dstRadix, int value)
 {
-	bool wasError = false;
-	StringToInt(value, wasError);
-	//перевести value из строки в число
-	//перевести из srcRadix в десятичную
-	//перевести из десятичной в dstRadix
-	//перевести получившееся число в строку
-	//ПЕРЕПОЛНЕНИЯ КОНТРОЛИРОВАТЬ ДЛИННОЙ АРИФМЕТИКОЙ
+	int tmpValue = convertValueToDec(srcRadix, value);
+	//value = convertValueTo(dstRadix, tmpValue);
+	return IntToString(tmpValue);
 }
 
-int StringToInt(const string& str, bool& wasError)
+int convertValueToDec(const string& srcRadix, int& value)
+{
+	bool wasError = false;
+	int result = 0;
+	int num = 1;
+	int base = StringToInt(srcRadix, wasError);
+	string str = IntToString(value);
+	if (!wasError)
+	{
+		for (unsigned i = 0; i < str.length(); ++i)
+		{
+			num = (int)pow(base, str.length() - i - 1);
+			result += CharToDigit(str[i]) * num;
+			cout << str[i] << endl;
+		}
+	}
+	return result;
+}
+
+int convertValueTo(const string& dstRadix, int& value)
+{
+	return value;
+}
+
+int StringToInt(const string str, bool& wasError)
 {
 	int result = 0;
+	int digit = 0;
 	for (size_t i = 0; i < str.length(); ++i)
 	{
-		int digit = CharToDigit(str[i]);
+		digit = CharToDigit(str[i]);
 		if (result >(INT_MAX - digit) / 10)
 		{
 			wasError = true;
@@ -74,11 +110,11 @@ int CharToDigit(const char ch)
 	int result = -1;
 	if (ch >= '0' && ch <= '9')
 	{
-		result = ch - '0';
+		result = (int) ch - '0';
 	}
 	else if (ch >= 'A' && ch <= 'Z')
 	{
-		result = ch - 'A' + 10;
+		result = (int) ch - 'A' + 10;
 	}
 
 	return result;
@@ -114,7 +150,10 @@ char DigitToChar(const int digit)
 
 void ReverseString(string& str)
 {
-
+	for (size_t i = 0; i < str.length() / 2; ++i)
+	{
+		swap(str[i], str[str.length() - i - 1]);
+	}
 }
 
 bool CheckRadix(string& radix)

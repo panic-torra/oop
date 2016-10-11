@@ -26,5 +26,20 @@ int main(int argc, char * argv[])
 	copy(istream_iterator<double>(input), istream_iterator<double>(),
 		back_inserter(nums));
 
-	cout << nums[0] << ", " << nums[1];
+	vector<double>::const_iterator max = max_element(nums.begin(), nums.end());
+	vector<double>::const_iterator min = min_element(nums.begin(), nums.end());
+	sort(nums.begin(), nums.end());
+
+	if (*min == 0)
+	{
+		cout << "Min num is zero, division by zero is forbidden" << endl;
+		return EXIT_FAILURE;
+	}
+
+	for (size_t i = 0; i < nums.size(); ++i)
+	{
+		cout << nums[i] * *max / *min << ' ';
+	}
+
+	return EXIT_SUCCESS;
 }

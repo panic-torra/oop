@@ -60,11 +60,14 @@ vector<bool> InitVector(unsigned int upperBound)
 	vector<bool> vector(upperBound);
 
 	vector[0] = vector[1] = true;
-	for (size_t k = 3; k * k <= upperBound; ++k)
+	for (size_t i = 2; i * i < upperBound; ++i)
 	{
-		for (size_t i = 3; ((i < upperBound) && (i % k == 0) && (i != k) && (!vector[i])); ++i)
+		if (!vector[i])
 		{
-			vector[i] = true;
+			for (size_t j = i * i; j < upperBound; j += i)
+			{
+				vector[j] = true;
+			}
 		}
 	}
 

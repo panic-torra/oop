@@ -8,6 +8,7 @@ const int MAX_NUM_OF_ARG = 2;
 using namespace std;
 
 set<int> GeneratePrimeNumbersSet(unsigned int upperBound);
+vector<bool> InitVector(unsigned int upperBound);
 
 int main(int argc, char * argv[])
 {
@@ -39,16 +40,7 @@ int main(int argc, char * argv[])
 
 set<int> GeneratePrimeNumbersSet(unsigned int upperBound)
 {
-	vector<bool> tmpSet(upperBound);
-
-	tmpSet[0] = tmpSet[1] = true;
-	for (size_t k = 3; k * k <= upperBound; ++k)
-	{
-		for (size_t i = 3; ((i < upperBound) && (i % k == 0) && (i != k) && (!tmpSet[i])); ++i)
-		{
-			tmpSet[i] = true;
-		}
-	}
+	vector<bool> tmpSet = InitVector(upperBound);
 
 	set<int> result;
 	result.insert(2);
@@ -61,4 +53,20 @@ set<int> GeneratePrimeNumbersSet(unsigned int upperBound)
 	}
 
 	return result;
+}
+
+vector<bool> InitVector(unsigned int upperBound)
+{
+	vector<bool> vector(upperBound);
+
+	vector[0] = vector[1] = true;
+	for (size_t k = 3; k * k <= upperBound; ++k)
+	{
+		for (size_t i = 3; ((i < upperBound) && (i % k == 0) && (i != k) && (!vector[i])); ++i)
+		{
+			vector[i] = true;
+		}
+	}
+
+	return vector;
 }

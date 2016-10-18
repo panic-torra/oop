@@ -1,7 +1,4 @@
 #include "stdafx.h"
-#include "ProcessVector.h"
-#include "stdafx.h"
-#include "processVector.h"
 #include <algorithm>
 #include <functional>
 #include <boost/range/algorithm/transform.hpp>

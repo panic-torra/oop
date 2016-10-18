@@ -18,22 +18,24 @@ std::vector<double> GetVectorFromFile(std::istream& input)
 	return nums;
 }
 
-int ProcessVector(std::vector<double>& nums)
+std::vector<double> ProcessVector(std::vector<double>& nums)
 {
 	std::vector<double>::const_iterator max = max_element(nums.begin(), nums.end());
 	std::vector<double>::const_iterator min = min_element(nums.begin(), nums.end());
-	sort(nums.begin(), nums.end());
+	std::vector<double> result(nums.size());
 
-	if (*min == 0)
+	if ((*min == 0) || (nums.size() <= 1))
 	{
-		std::cout << "Min num is zero, division by zero is forbidden" << std::endl;
-		return EXIT_FAILURE;
+		std::cout << "Mistake in input data, sorry" << std::endl;
+		return nums;
 	}
 
 	for (size_t i = 0; i < nums.size(); ++i)
 	{
-		std::cout << nums[i] * *max / *min << ' ';
+		result[i] = nums[i] * *max / *min;
 	}
 
-	return EXIT_SUCCESS;
+	sort(result.begin(), result.end());
+
+	return result;
 }

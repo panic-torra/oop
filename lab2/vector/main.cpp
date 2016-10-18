@@ -23,6 +23,12 @@ int main(int argc, char * argv[])
 		return EXIT_FAILURE;
 	}
 	vector<double> nums = GetVectorFromFile(input);
-
-	return ProcessVector(nums);
+	vector<double> result = ProcessVector(nums);
+	if (result != nums)
+	{
+		copy(result.begin(), result.end(), ostream_iterator<int>(cout, " "));
+		return EXIT_SUCCESS;
+	}
+	
+	return EXIT_FAILURE;
 }

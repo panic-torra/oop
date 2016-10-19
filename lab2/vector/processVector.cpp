@@ -23,7 +23,7 @@ std::vector<double> ProcessVector(std::vector<double>& nums)
 
 	if ((*min == 0) || (nums.size() <= 1))
 	{
-		std::cout << "Mistake in input data, sorry" << std::endl;
+		//std::cout << "Mistake in input data, sorry" << std::endl;
 		return nums;
 	}
 

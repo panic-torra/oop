@@ -7,7 +7,7 @@ BOOST_AUTO_TEST_SUITE(Test_function)
 
 	BOOST_AUTO_TEST_CASE(for_replacing_in_empty_str)
 	{
-		string expectedResult = "";
+		const string expectedResult = "";
 		string input = "";
 		const string searchStr = "a";
 		const string replaceStr = "bb";
@@ -18,7 +18,7 @@ BOOST_AUTO_TEST_SUITE(Test_function)
 
 	BOOST_AUTO_TEST_CASE(for_replacing_in_str_searchStr_bigger)
 	{
-		string expectedResult = "123LOOK5";
+		const string expectedResult = "123LOOK5";
 		string input = "12312312345";
 		const string searchStr = "1231234";
 		const string replaceStr = "LOOK";
@@ -29,7 +29,7 @@ BOOST_AUTO_TEST_SUITE(Test_function)
 
 	BOOST_AUTO_TEST_CASE(for_replacing_in_str_replaceStr_bigger)
 	{
-		string expectedResult = "NO ONE'll think, \"How'd I get here, sitting next to NO ONE?\"";
+		const string expectedResult = "NO ONE'll think, \"How'd I get here, sitting next to NO ONE?\"";
 		string input = "you'll think, \"How'd I get here, sitting next to you?\"";
 		const string searchStr = "you";
 		const string replaceStr = "NO ONE";
@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_SUITE(Test_function)
 
 	BOOST_AUTO_TEST_CASE(for_replacing_in_html_without_needed)
 	{
-		string expectedResult = "you'll think, \"How'd I get here, sitting next to you?\"";
+		const string expectedResult = "you'll think, \"How'd I get here, sitting next to you?\"";
 		string input = "you'll think, \"How'd I get here, sitting next to you?\"";
 		auto result = HtmlDecode(input);
 
@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_SUITE(Test_function)
 
 	BOOST_AUTO_TEST_CASE(for_replacing_in_html)
 	{
-		string expectedResult = "Cat <says> ""Meow"". M&M’s";
+		const string expectedResult = "Cat <says> \"Meow\". M&M's";
 		string input = "Cat &lt;says&gt; &quot;Meow&quot;. M&amp;M&apos;s";
 		auto result = HtmlDecode(input);
 

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include <iostream>
+#include <set>
 #include "primeNums.h"
 
 const int MAX_NUM_OF_ARG = 2;

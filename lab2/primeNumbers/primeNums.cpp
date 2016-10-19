@@ -1,10 +1,6 @@
 #include "stdafx.h"
 #include <vector>
 #include <set>
-#include <boost/range/algorithm/transform.hpp>
-#pragma warning (push, 3)
-#include <boost/phoenix.hpp>
-#pragma warning (pop)
 
 std::vector<bool> InitVectorOfPrimes(unsigned int upperBound)
 {

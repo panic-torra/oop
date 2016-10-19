@@ -51,4 +51,13 @@ BOOST_AUTO_TEST_SUITE(Test_function)
 
 		BOOST_CHECK(result == expectedResult);
 	}
+
+	BOOST_AUTO_TEST_CASE(for_processing_repeated_num)
+	{
+		vector<double> expectedResult{ 1, 1, 1, 1, 1, 1};
+		vector<double> input{ 1, 1, 1, 1, 1, 1 };
+		auto result = ProcessVector(input);
+
+		BOOST_CHECK(result == expectedResult);
+	}
 BOOST_AUTO_TEST_SUITE_END()

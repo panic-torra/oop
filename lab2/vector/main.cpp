@@ -24,11 +24,16 @@ int main(int argc, char * argv[])
 	}
 	vector<double> nums = GetVectorFromFile(input);
 	vector<double> result = ProcessVector(nums);
-	if (result != nums)
+	if (result == nums)
+	{
+		cout << "Nothing changed in input:" << endl;
+		copy(nums.begin(), nums.end(), ostream_iterator<int>(cout, " "));
+		return EXIT_FAILURE;
+	}
+	else
 	{
 		copy(result.begin(), result.end(), ostream_iterator<int>(cout, " "));
-		return EXIT_SUCCESS;
 	}
-	
-	return EXIT_FAILURE;
+
+	return EXIT_SUCCESS;
 }

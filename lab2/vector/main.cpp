@@ -23,8 +23,8 @@ int main(int argc, char * argv[])
 		return EXIT_FAILURE;
 	}
 
-	vector<double> nums = GetVectorFromFile(input);
-	vector<double> result = ProcessVector(nums);
+	auto nums = GetVectorFromFile(input);
+	auto result = ProcessVector(nums);
 
 	if (result == nums)
 	{

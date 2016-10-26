@@ -9,11 +9,7 @@
 
 std::vector<double> GetVectorFromFile(std::istream& input)
 {
-	std::vector<double> nums;
-    copy(std::istream_iterator<double>(input), std::istream_iterator<double>(),
-		back_inserter(nums));
-
-	return nums;
+	return { std::istream_iterator<double>(input), std::istream_iterator<double>() };
 }
 
 std::vector<double> ProcessVector(std::vector<double> nums)

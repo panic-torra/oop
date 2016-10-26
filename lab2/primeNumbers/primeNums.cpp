@@ -18,7 +18,7 @@ std::vector<bool> InitVectorOfPrimes(unsigned int upperBound)
 		}
 	}
 
-	return vector;
+	return { vector.begin(), vector.end() };
 }
 
 std::set<int> GeneratePrimeNumbersSet(unsigned int upperBound)
@@ -35,5 +35,5 @@ std::set<int> GeneratePrimeNumbersSet(unsigned int upperBound)
 		}
 	}
 
-	return result;
+	return { result.begin(), result.end() };
 }

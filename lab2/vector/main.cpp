@@ -22,8 +22,10 @@ int main(int argc, char * argv[])
 		cout << "Failed to open " << argv[1] << " for reading.";
 		return EXIT_FAILURE;
 	}
+
 	vector<double> nums = GetVectorFromFile(input);
 	vector<double> result = ProcessVector(nums);
+
 	if (result == nums)
 	{
 		cout << "Nothing changed in input:" << endl;
@@ -32,6 +34,7 @@ int main(int argc, char * argv[])
 	}
 	else
 	{
+		sort(result.begin(), result.end());
 		copy(result.begin(), result.end(), ostream_iterator<int>(cout, " "));
 	}
 

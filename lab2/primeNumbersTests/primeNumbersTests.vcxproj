@@ -145,6 +145,8 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\primeNumbers\primeNums.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="primeNumbersTests.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

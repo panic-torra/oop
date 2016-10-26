@@ -8,11 +8,11 @@ std::vector<bool> InitVectorOfPrimes(unsigned int upperBound)
 	if (upperBound >= 2 && upperBound < 100000001)
 	{
 		vector[0] = vector[1] = false;
-		for (size_t i = 2; i * i <= upperBound; ++i)
+		for (unsigned int i = 2; i * i <= upperBound; ++i)
 		{
 			if (vector[i])
 			{
-				for (size_t j = i * i; j <= upperBound; j += i)
+				for (unsigned int j = i * i; j <= upperBound; j += i)
 				{
 					vector[j] = false;
 				}
@@ -28,17 +28,17 @@ std::vector<bool> InitVectorOfPrimes(unsigned int upperBound)
 
 std::set<int> GeneratePrimeNumbersSet(unsigned int upperBound)
 {
-	std::vector<bool> tmpSet = InitVectorOfPrimes(upperBound);
+	std::vector<bool> sieve = InitVectorOfPrimes(upperBound);
 
 	std::set<int> result;
 	if (upperBound >= 2 && upperBound < 100000001)
 	{
-		result.insert(2);
-		for (size_t i = 3; i <= upperBound; i += 2)
+		result.emplace_hint(result.end(), 2);
+		for (unsigned int i = 3; i <= upperBound; i += 2)
 		{
-			if (tmpSet[i])
+			if (sieve[i])
 			{
-				result.insert(i);
+				result.emplace_hint(result.end(), i);
 			}
 		}
 	}

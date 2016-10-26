@@ -13,7 +13,7 @@ BOOST_AUTO_TEST_SUITE(InitVectorOfPrimes_function)
 		BOOST_CHECK(result == expectedResult);
 	}
 	
-	BOOST_AUTO_TEST_CASE(generate_vector_of_10_primes)
+	BOOST_AUTO_TEST_CASE(generate_vector_of_primes_in_first_ten_numbers)
 	{
 		vector<bool> expectedResult{ 0, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0};
 		auto result = InitVectorOfPrimes(10);

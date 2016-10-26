@@ -3,9 +3,9 @@
 
 using namespace std;
 
-BOOST_AUTO_TEST_SUITE(Test_function)
+BOOST_AUTO_TEST_SUITE(ReplaseInStr_function)
 
-	BOOST_AUTO_TEST_CASE(for_replacing_in_empty_str)
+	BOOST_AUTO_TEST_CASE(handle_empty_string)
 	{
 		const string expectedResult = "";
 		string input = "";
@@ -16,38 +16,42 @@ BOOST_AUTO_TEST_SUITE(Test_function)
 		BOOST_CHECK(result == expectedResult);
 	}
 
-	BOOST_AUTO_TEST_CASE(for_replacing_in_str_searchStr_bigger)
+	BOOST_AUTO_TEST_CASE(replace_string_bigger_than_searching)
 	{
-		const string expectedResult = "123LOOK5";
-		string input = "12312312345";
-		const string searchStr = "1231234";
-		const string replaceStr = "LOOK";
+		const string expectedResult = "The quick br!!wn f!!x jumps !!ver the lazy d!!g";
+		string input = "The quick brown fox jumps over the lazy dog";
+		const string searchStr = "o";
+		const string replaceStr = "!!";
 		auto result = ReplaceInStr(input, searchStr, replaceStr);
 
 		BOOST_CHECK(result == expectedResult);
 	}
 
-	BOOST_AUTO_TEST_CASE(for_replacing_in_str_replaceStr_bigger)
+	BOOST_AUTO_TEST_CASE(replace_string_smaller_than_searching)
 	{
-		const string expectedResult = "NO ONE'll think, \"How'd I get here, sitting next to NO ONE?\"";
-		string input = "you'll think, \"How'd I get here, sitting next to you?\"";
-		const string searchStr = "you";
-		const string replaceStr = "NO ONE";
+		const string expectedResult = "The quick red fox jumps over the lazy dog";
+		string input = "The quick brown fox jumps over the lazy dog";
+		const string searchStr = "brown";
+		const string replaceStr = "red";
 		auto result = ReplaceInStr(input, searchStr, replaceStr);
 
 		BOOST_CHECK(result == expectedResult);
 	}
 
-	BOOST_AUTO_TEST_CASE(for_replacing_in_html_without_needed)
+	BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(HtmlDecode_function)
+
+	BOOST_AUTO_TEST_CASE(doesnt_spoil_string)
 	{
-		const string expectedResult = "you'll think, \"How'd I get here, sitting next to you?\"";
-		string input = "you'll think, \"How'd I get here, sitting next to you?\"";
+		const string expectedResult = "The quick brown fox jumps over the lazy dog";
+		string input = "The quick brown fox jumps over the lazy dog";
 		auto result = HtmlDecode(input);
 
 		BOOST_CHECK(result == expectedResult);
 	}
 
-	BOOST_AUTO_TEST_CASE(for_replacing_in_html)
+	BOOST_AUTO_TEST_CASE(replace_needed_substrings)
 	{
 		const string expectedResult = "Cat <says> \"Meow\". M&M's";
 		string input = "Cat &lt;says&gt; &quot;Meow&quot;. M&amp;M&apos;s";

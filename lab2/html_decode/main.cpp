@@ -22,11 +22,9 @@ int main(int argc, char * argv[])
 	}
 
 	string htmlStr = "";
-	string resultStr = "";
 	while (getline(input, htmlStr))
 	{
-		resultStr = HtmlDecode(htmlStr);
-		cout << resultStr << "\n";
+		cout << HtmlDecode(htmlStr) << "\n";
 	}
 
 	return EXIT_SUCCESS;

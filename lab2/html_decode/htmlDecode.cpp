@@ -1,56 +1,46 @@
 #include "stdafx.h"
+#include <map>
+#include <vector>
+#include <iostream>
 #include <boost/range/algorithm/transform.hpp>
 #pragma warning (push, 3)
 #include <boost/phoenix.hpp>
 #pragma warning (pop)
 
-
-std::string ReplaceInStr(std::string const& currStr, std::string const searchStr, std::string const replaceStr)
+std::string HtmlDecode(const std::string& htmlStr)
 {
-	const size_t searchStrLen = searchStr.length();
-	const size_t currStrLen = currStr.length();
+	std::string resultStr = "";
+	const std::map<std::string, char> htmlSymbols = 
+	{
+		{ "&amp;", '&' },
+		{ "&quot;", '\"' },
+		{ "&apos;", '\'' },
+		{ "&lt;", '<' },
+		{ "&gt;", '>' }
+	};
 
-	size_t lastCopiedPos = 0;
-	size_t currPos = currStr.find(searchStr, 0);
-	std::string resultStr;
+	for (size_t strPos = 0; strPos < htmlStr.length(); ++strPos)
+	{
+		bool wasReplace = false;
+		size_t lastPos = 0;
 
-	while (currPos != std::string::npos)
-	{
-		resultStr.append(currStr, lastCopiedPos, currPos - lastCopiedPos);
-		resultStr += replaceStr;
-		lastCopiedPos = currPos + searchStrLen;
-		currPos = currStr.find(searchStr, lastCopiedPos);
-	}
-	if (lastCopiedPos != currStrLen)
-	{
-		resultStr.append(currStr, lastCopiedPos);
-	}
-	return resultStr;
-}
+		if (htmlStr[strPos] == '&')
+		{
+			for (auto iterator = htmlSymbols.begin(); iterator != htmlSymbols.end(); ++iterator)
+			{
+				if (htmlStr.find(iterator->first, strPos) == strPos)
+				{
+					resultStr += iterator->second;
+					strPos += iterator->first.size() - 1;
+					wasReplace = true;
+				}
+			}
+		}
 
-std::string HtmlDecode(std::string const& htmlStr)
-{
-	std::string resultStr = htmlStr;
-
-	if (htmlStr.find("&quot;", 0) != std::string::npos)
-	{
-		resultStr = ReplaceInStr(resultStr, "&quot;", "\"");
-	}
-	if (htmlStr.find("&apos;", 0) != std::string::npos)
-	{
-		resultStr = ReplaceInStr(resultStr, "&apos;", "'");
-	}
-	if (htmlStr.find("&lt;", 0) != std::string::npos)
-	{
-		resultStr = ReplaceInStr(resultStr, "&lt;", "<");
-	}
-	if (htmlStr.find("&gt;", 0) != std::string::npos)
-	{
-		resultStr = ReplaceInStr(resultStr, "&gt;", ">");
-	}
-	if (htmlStr.find("&amp;", 0) != std::string::npos)
-	{
-		resultStr = ReplaceInStr(resultStr, "&amp;", "&");
+		if (!wasReplace)
+		{
+			resultStr += htmlStr[strPos];
+		}
 	}
 
 	return resultStr;

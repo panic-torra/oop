@@ -7,31 +7,36 @@
 #include <boost/phoenix.hpp>
 #pragma warning (pop)
 
+namespace
+{
+	const std::string HTML_ENTITIES[5][2] =
+	{
+		{ "&amp;", "&" },
+		{ "&quot;", "\"" },
+		{ "&apos;", "'" },
+		{ "&lt;", "<" },
+		{ "&gt;", ">" }
+	};
+}
+
 std::string HtmlDecode(const std::string& htmlStr)
 {
-	std::string resultStr = "";
-	const std::map<std::string, char> htmlSymbols = 
-	{
-		{ "&amp;", '&' },
-		{ "&quot;", '\"' },
-		{ "&apos;", '\'' },
-		{ "&lt;", '<' },
-		{ "&gt;", '>' }
-	};
+	std::string resultStr;
+	resultStr.reserve(htmlStr.size());
+	
 
-	for (size_t strPos = 0; strPos < htmlStr.length(); ++strPos)
+	for (size_t strPos = 0; strPos < htmlStr.size(); ++strPos)
 	{
 		bool wasReplace = false;
-		size_t lastPos = 0;
 
 		if (htmlStr[strPos] == '&')
 		{
-			for (auto iterator = htmlSymbols.begin(); iterator != htmlSymbols.end(); ++iterator)
+			for (auto i = 0; i < 5; ++i)
 			{
-				if (htmlStr.find(iterator->first, strPos) == strPos)
+				if (htmlStr.find(HTML_ENTITIES[i][0].c_str(), strPos, HTML_ENTITIES[i][0].length()) == strPos)
 				{
-					resultStr += iterator->second;
-					strPos += iterator->first.size() - 1;
+					resultStr += HTML_ENTITIES[i][1];
+					strPos += HTML_ENTITIES[i][0].size() - 1;
 					wasReplace = true;
 				}
 			}

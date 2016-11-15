@@ -5,16 +5,17 @@
 int main()
 {
 	setlocale(LC_ALL, "rus");
-	CCar matiz;
-	/*CCarControl virtualControl(matiz, std::cin, std::cout);
+	CCar car;
+	CCarControl virtualControl(car, std::cin, std::cout);
 
-	while (!std::cin.eof() && !std::cin.fail())
+	while (std::cin.good())
 	{
 		std::cout << "> ";
 		if (!virtualControl.HandleCommand())
 		{
-			std::cout << "Unknown command!\n";
+			std::cout << "Unknown command!" << std::endl;
 		}
-	}*/
+	}
+
 	return EXIT_SUCCESS;
 }

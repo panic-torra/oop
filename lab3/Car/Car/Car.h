@@ -1,4 +1,5 @@
 #pragma once
+#include "stdafx.h"
 
 enum class Gear
 {
@@ -18,6 +19,9 @@ enum class Direction
 	FORWARD = 1
 };
 
+typedef std::pair<int, int> Speed;
+typedef std::map<Gear, Speed> SpeedRange;
+extern const SpeedRange speedRange;
 
 class CCar
 {
@@ -28,17 +32,17 @@ public:
 	int GetDirection() const;
 
 	bool IsEngineTurnOn() const;
+	bool CheckGear(Gear gear) const;
 
 	bool TurnOnEngine();
 	bool TurnOffEngine();
 
-	bool SetGear(int gear);
+	bool SetGear(Gear gear);
 	bool SetSpeed(int speed);
 
 	bool IsNeutralGear() const;
 	bool IsSpeedInRange(Gear const& gear, int speed) const;
 
-	bool CheckGear(int gear) const;
 private:
 	bool m_isTurnOn = false;
 	Gear m_gear = Gear::NEUTRAL;

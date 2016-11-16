@@ -2,7 +2,7 @@
 #include "Car.h"
 
 static const int MAX_GEAR = 5;
-static const int MIN_GERA = -1;
+static const int MIN_GEAR = -1;
 
 static const int MIN_SPEED = 0;
 static const int MAX_SPEED = 150;
@@ -33,20 +33,39 @@ int CCar::GetGear() const
 	return static_cast<int>(m_gear);
 }
 
-int CCar::GetDirection() const
+int CCar::GetDirection()
 {
+	if (m_speed < 0)
+	{
+		m_direction = Direction::BACKWARD;
+	}
+	else if (m_speed > 0)
+	{
+		m_direction = Direction::FORWARD;
+	}
+	else
+	{
+		m_direction = Direction::NONE;
+	}
+
 	return static_cast<int>(m_direction);
 }
 
 bool CCar::TurnOnEngine()
 {
-	return !m_isTurnOn ? m_isTurnOn = true : false;
+	if (!m_isTurnOn)
+	{
+		m_isTurnOn = true;
+		return true;
+	}
+
+	return false;
 }
 
 bool CCar::TurnOffEngine()
 {
 	bool isTurnOff = false;
-	if (m_isTurnOn && (m_speed == 0) && IsNeutralGear())
+	if (m_isTurnOn && (m_speed == 0) && (m_gear == Gear::NEUTRAL))
 	{
 		m_isTurnOn = false;
 		isTurnOff = true;
@@ -54,10 +73,6 @@ bool CCar::TurnOffEngine()
 	return isTurnOff;
 }
 
-bool CCar::IsNeutralGear() const
-{
-	return m_gear == Gear::NEUTRAL;
-}
 
 bool CCar::CheckGear(Gear gear) const
 {
@@ -79,7 +94,7 @@ bool CCar::SetGear(Gear gear)
 {
 	bool isSetGear = false;
 	auto intGear = static_cast<int>(gear);
-	bool isAvailableGear = (MAX_GEAR >= intGear) && (MIN_GERA <= intGear) && (m_isTurnOn);
+	bool isAvailableGear = (MAX_GEAR >= intGear) && (MIN_GEAR <= intGear) && (m_isTurnOn);
 	if (isAvailableGear)
 	{
 		isSetGear = isAvailableGear && IsSpeedInRange(static_cast<Gear>(gear), GetSpeed()) && CheckGear(gear);
@@ -95,7 +110,7 @@ bool CCar::SetSpeed(int speed)
 {
 	if (IsSpeedInRange(m_gear, speed))
 	{
-		if (IsNeutralGear() && (speed <= GetSpeed()) || !IsNeutralGear())
+		if ((m_gear == Gear::NEUTRAL) && (speed <= GetSpeed()) || !(m_gear == Gear::NEUTRAL))
 		{
 			m_speed = (Gear::REVERSE == m_gear) || (m_speed < 0) ? -speed : speed;
 			return true;

@@ -29,7 +29,7 @@ public:
 
 	int GetGear() const;
 	int GetSpeed() const;
-	int GetDirection() const;
+	int GetDirection();
 
 	bool IsEngineTurnOn() const;
 	bool CheckGear(Gear gear) const;
@@ -40,7 +40,6 @@ public:
 	bool SetGear(Gear gear);
 	bool SetSpeed(int speed);
 
-	bool IsNeutralGear() const;
 	bool IsSpeedInRange(Gear const& gear, int speed) const;
 
 private:

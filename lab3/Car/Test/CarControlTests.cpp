@@ -70,25 +70,26 @@ BOOST_FIXTURE_TEST_SUITE(CCarController_class, CarControlFixture)
 		);
 	}
 
-	BOOST_AUTO_TEST_CASE(can_print_alert_messages)
+	BOOST_AUTO_TEST_CASE(can_print_messages_about_mistakes)
 	{
 		car.TurnOffEngine();
-		VerifyCommandHandling(
-			"SetSpeed 30", "Speed is out of range for current gear or car engine is turned off\n"
-		);
+		VerifyCommandHandling("SetSpeed 30", "Speed is out of range for current gear or car engine is turned off\n");
+
+		car.TurnOnEngine();
+		car.SetSpeed(50);
+		VerifyCommandHandling("SetSpeed 50", "Speed is out of range for current gear or car engine is turned off\n");
 	}
 
-	BOOST_AUTO_TEST_CASE(can_show_info_that_operation_on_car_engine_is_already_done)
+	BOOST_AUTO_TEST_CASE(can_print_result_of_changing_car_characteristics)
 	{
 		car.TurnOnEngine();
-		VerifyCommandHandling(
-			"EngineOn", "Car engine is already turned on\n"
-		);
+		VerifyCommandHandling("EngineOn", "Car engine is already turned on\n");
 
 		car.TurnOffEngine();
-		VerifyCommandHandling(
-			"EngineOff", "Car engine is already turned off\n"
-		);
+		VerifyCommandHandling("EngineOff", "Car engine is already turned off\n");
+
+		car.SetGear(Gear::FIRST);
+		VerifyCommandHandling("SetGear", "Gear was switched on 1");
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -3,7 +3,7 @@
 class IShape
 {
 public:
-	IShape(std::string const& type);
+	IShape(std::string const & type);
 	virtual ~IShape() = default;
 
 	virtual double GetArea() const = 0;
@@ -13,6 +13,7 @@ public:
 
 protected:
 	virtual void AppendProperties(std::ostream & strm) const = 0;
+
 private:
 	std::string m_type;
 };

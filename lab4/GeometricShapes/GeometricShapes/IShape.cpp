@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "IShape.h"
 
-IShape::IShape(std::string const& type)
+IShape::IShape(std::string const & type)
 	:m_type(type)
 {
 }

@@ -11,3 +11,13 @@ std::string CPoint::ToString() const
 {
 	return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
 }
+
+double CPoint::GetX() const
+{
+	return m_x;
+}
+
+double CPoint::GetY() const
+{
+	return m_y;
+}

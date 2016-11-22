@@ -65,7 +65,7 @@ bool CCar::TurnOnEngine()
 bool CCar::TurnOffEngine()
 {
 	bool isTurnOff = false;
-	if (m_isTurnOn && m_speed == 0 && m_gear == Gear::NEUTRAL)
+	if (m_isTurnOn && (m_speed == 0) && (m_gear == Gear::NEUTRAL))
 	{
 		m_isTurnOn = false;
 		isTurnOff = true;

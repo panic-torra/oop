@@ -82,14 +82,13 @@ BOOST_FIXTURE_TEST_SUITE(CCarController_class, CarControlFixture)
 
 	BOOST_AUTO_TEST_CASE(can_print_result_of_changing_car_characteristics)
 	{
+		VerifyCommandHandling("EngineOff", "Car engine is already turned off\n");
+
 		car.TurnOnEngine();
 		VerifyCommandHandling("EngineOn", "Car engine is already turned on\n");
 
-		car.TurnOffEngine();
-		VerifyCommandHandling("EngineOff", "Car engine is already turned off\n");
-
-		car.SetGear(Gear::FIRST);
-		VerifyCommandHandling("SetGear", "Gear was switched on 1");
+		VerifyCommandHandling("SetGear 1", "Gear was switched on 1\n");
+		VerifyCommandHandling("SetGear 5", "Can't switch gear on 5\n");
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

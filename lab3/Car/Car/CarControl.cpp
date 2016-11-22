@@ -38,7 +38,6 @@ string GetDirectionString(Direction const& direction)
 	return result;
 }
 
-
 bool CCarControl::HandleCommand()
 {
 	string commandLine;
@@ -70,7 +69,7 @@ bool CCarControl::EngineOn(std::istream & /*args*/)
 		m_output << "Car engine is already turned on\n";
 	}
 
-	return callback;
+	return true;
 }
 
 bool CCarControl::EngineOff(std::istream & /*args*/)
@@ -86,7 +85,7 @@ bool CCarControl::EngineOff(std::istream & /*args*/)
 		m_output << "Car engine is already turned off\n";
 	}
 
-	return callback;
+	return true;
 }
 
 bool CCarControl::SetGear(std::istream &args)
@@ -105,7 +104,7 @@ bool CCarControl::SetGear(std::istream &args)
 		m_output << "Can't switch gear on " << gear << '\n';
 	}
 
-	return callback;
+	return true;
 }
 
 bool CCarControl::SetSpeed(std::istream &args)
@@ -124,7 +123,7 @@ bool CCarControl::SetSpeed(std::istream &args)
 		m_output << "Speed is out of range for current gear or car engine is turned off\n";
 	}
 
-	return false;
+	return true;
 }
 
 bool CCarControl::Info(std::istream & /*args*/)

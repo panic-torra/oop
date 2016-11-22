@@ -65,7 +65,7 @@ bool CCar::TurnOnEngine()
 bool CCar::TurnOffEngine()
 {
 	bool isTurnOff = false;
-	if (m_isTurnOn && (m_speed == 0) && (m_gear == Gear::NEUTRAL))
+	if (m_isTurnOn && m_speed == 0 && m_gear == Gear::NEUTRAL)
 	{
 		m_isTurnOn = false;
 		isTurnOff = true;
@@ -76,7 +76,7 @@ bool CCar::TurnOffEngine()
 
 bool CCar::CheckGear(Gear gear) const
 {
-	return ((static_cast<Gear>(gear) == Gear::REVERSE) && (m_speed == 0)) ||
+	return ((gear == Gear::REVERSE) && (m_speed == 0)) ||
 		((m_gear == Gear::REVERSE) && (gear == Gear::FIRST) && (m_speed == 0)) ||
 		((m_gear == Gear::NEUTRAL) && (gear == Gear::FIRST) && (m_speed == 0)) ||
 		((m_gear != Gear::REVERSE) && (gear >= Gear::FIRST) && (m_speed >= 0)) ||
@@ -87,7 +87,7 @@ bool CCar::IsSpeedInRange(Gear const& gear, int speed) const
 {
 	auto it = speedRange.find(gear);
 	auto speedRange = it->second;
-	return  (speedRange.second >= speed) && (speedRange.first <= speed);
+	return  (speed <= speedRange.second) && (speed >= speedRange.first);
 }
 
 bool CCar::SetGear(Gear gear)

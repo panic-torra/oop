@@ -31,7 +31,7 @@ std::string HtmlDecode(const std::string& htmlStr)
 
 		if (htmlStr[strPos] == '&')
 		{
-			for (auto i = 0; i < 5; ++i)
+			for (std::string item : HTML_ENTITIES)
 			{
 				if (htmlStr.find(HTML_ENTITIES[i][0].c_str(), strPos, HTML_ENTITIES[i][0].length()) == strPos)
 				{

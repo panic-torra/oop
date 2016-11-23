@@ -2,14 +2,14 @@
 #include "ÑPoint.h"
 
 CPoint::CPoint(double x, double y)
-	: x(x)
-	, y(y)
+	: m_x(x)
+	, m_y(y)
 {
 }
 
 std::string CPoint::ToString() const
 {
-	return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+	return "(" + std::to_string(m_x) + ", " + std::to_string(m_y) + ")";
 }
 
 double CPoint::GetX() const

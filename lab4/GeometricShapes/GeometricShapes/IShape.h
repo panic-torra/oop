@@ -3,6 +3,7 @@
 class IShape
 {
 public:
+	IShape() = default;
 	IShape(std::string const & type);
 	virtual ~IShape() = default;
 

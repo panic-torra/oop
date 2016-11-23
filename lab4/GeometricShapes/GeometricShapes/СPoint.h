@@ -4,7 +4,7 @@ class CPoint
 {
 public:
 	CPoint() = default;
-	CPoint(double x, double y);
+	CPoint(double m_x, double m_y);
 	~CPoint() = default;
 
 	std::string ToString() const;

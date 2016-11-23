@@ -31,9 +31,6 @@ public:
 	int GetSpeed() const;
 	int GetDirection();
 
-	bool IsEngineTurnOn() const;
-	bool CheckGear(Gear gear) const;
-
 	bool TurnOnEngine();
 	bool TurnOffEngine();
 
@@ -41,7 +38,8 @@ public:
 	bool SetSpeed(int speed);
 
 	bool IsSpeedInRange(Gear const& gear, int speed) const;
-
+	bool IsEngineTurnOn() const;
+	bool CheckGear(Gear gear) const;
 private:
 	bool m_isTurnOn = false;
 	Gear m_gear = Gear::NEUTRAL;

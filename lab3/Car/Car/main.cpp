@@ -8,7 +8,7 @@ int main()
 	CCar car;
 	CCarControl virtualControl(car, std::cin, std::cout);
 
-	while (std::cin.good())
+	while (!std::cin.fail())
 	{
 		std::cout << "> ";
 		if (!virtualControl.HandleCommand())

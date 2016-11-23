@@ -94,8 +94,7 @@ bool CCar::SetGear(Gear gear)
 {
 	bool isSetGear = false;
 	auto intGear = static_cast<int>(gear);
-	bool isAvailableGear = (MAX_GEAR >= intGear) && (MIN_GEAR <= intGear) && (m_isTurnOn);
-	if (isAvailableGear)
+	if ((MAX_GEAR >= intGear) && (MIN_GEAR <= intGear) && (m_isTurnOn))
 	{
 		isSetGear = IsSpeedInRange(static_cast<Gear>(gear), GetSpeed()) && CheckGear(gear);
 		if (isSetGear)
@@ -108,13 +107,10 @@ bool CCar::SetGear(Gear gear)
 
 bool CCar::SetSpeed(int speed)
 {
-	if (IsSpeedInRange(m_gear, speed))
+	if (IsSpeedInRange(m_gear, speed) && (m_gear == Gear::NEUTRAL) && (speed <= GetSpeed()) || !(m_gear == Gear::NEUTRAL))
 	{
-		if ((m_gear == Gear::NEUTRAL) && (speed <= GetSpeed()) || !(m_gear == Gear::NEUTRAL))
-		{
-			m_speed = speed;
-			return true;
-		}
+		m_speed = speed;
+		return true;
 	}
 
 	return false;

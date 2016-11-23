@@ -3,10 +3,13 @@
 
 CTriangle::CTriangle(const CPoint & point1, const CPoint & point2, const CPoint & point3,
 	const std::string & outlineColor, const std::string & fillColor)
-	:m_vertices({ point1, point2, point3 })
+	:ISolidShape("Triangle"),
+	m_fillColor(fillColor),
+	m_outlineColor(outlineColor)
 {
-	m_outlineColor = outlineColor;
-	m_fillColor = fillColor;
+	m_vertices[0] = point1;
+	m_vertices[1] = point2;
+	m_vertices[2] = point3;
 }
 
 CPoint const & CTriangle::GetVertex1() const

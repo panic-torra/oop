@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "../GeometricShapes/CPoint.h"
 #include "../GeometricShapes/CTriangle.h"
+#include "PointTest.h"
 
 struct TriangleFixture_
 {
@@ -10,45 +11,41 @@ struct TriangleFixture_
 	{}
 };
 
-void IsPointsEqual(CPoint left, CPoint right)
-{
-	BOOST_CHECK_CLOSE(left.GetX(), right.GetX(), 0.00001);
-	BOOST_CHECK_CLOSE(left.GetY(), right.GetY(), 0.00001);
-}
+BOOST_FIXTURE_TEST_SUITE(Triangle, TriangleFixture_)
 
-BOOST_FIXTURE_TEST_SUITE(Triangle_creates, TriangleFixture_)
+	BOOST_AUTO_TEST_SUITE(creates)
+		BOOST_AUTO_TEST_CASE(with_a_perimeter)
+		{
+			BOOST_CHECK_EQUAL(triangle.GetPerimeter(), 12);
+		}
 
-	BOOST_AUTO_TEST_CASE(with_a_perimeter)
-	{
-		BOOST_CHECK(triangle.GetPerimeter() == 12);
-	}
-
-	BOOST_AUTO_TEST_CASE(with_an_area)
-	{
-		BOOST_CHECK(triangle.GetArea() == 3 * 4 * 0.5);
-	}
+		BOOST_AUTO_TEST_CASE(with_an_area)
+		{
+			BOOST_CHECK_EQUAL(triangle.GetArea(), 3 * 4 * 0.5);
+		}
+	BOOST_AUTO_TEST_SUITE_END()
 
 
-	BOOST_AUTO_TEST_CASE(triangle_get_vertex)
+	BOOST_AUTO_TEST_CASE(can_get_vertex)
 	{
 		IsPointsEqual(triangle.GetVertex1(), { 0, 0 });
 		IsPointsEqual(triangle.GetVertex2(), { 0, 3 });
 		IsPointsEqual(triangle.GetVertex3(), { 4, 3 });
 	}
 
-	BOOST_AUTO_TEST_CASE(triangle_get_fill_color)
+	BOOST_AUTO_TEST_CASE(can_get_fill_color)
 	{
-		BOOST_CHECK(triangle.GetFillColor() == "#0000ff");
+		BOOST_CHECK_EQUAL(triangle.GetFillColor(), "#ff2510");
 	}
 
-	BOOST_AUTO_TEST_CASE(triangle_get_outline_color)
+	BOOST_AUTO_TEST_CASE(can_get_outline_color)
 	{
-		BOOST_CHECK(triangle.GetOutlineColor() == "#ff00ff");
+		BOOST_CHECK_EQUAL(triangle.GetOutlineColor(), "#123456");
 	}
 
-	BOOST_AUTO_TEST_CASE(triangle_to_string)
+	BOOST_AUTO_TEST_CASE(can_print_info)
 	{
-		BOOST_CHECK(triangle.ToString() == "Triangle:   S = 6  P = 12  ColorOutline = #ff00ff  FillColor = #0000ff");
+		BOOST_CHECK_EQUAL(triangle.ToString(), "Triangle:   S = 6  P = 12  ColorOutline = #123456  FillColor = #ff2510");
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

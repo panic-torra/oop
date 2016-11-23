@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "../GeometricShapes/CLineSegment.h"
+#include "PointTest.h"
 
 struct LineSegmentFixture
 {
@@ -8,12 +9,6 @@ struct LineSegmentFixture
 		:line({ 0, 15 }, { 15, 7 }, "#000000")
 	{}
 };
-
-void IsPointsEqual(CPoint left, CPoint right)
-{
-	BOOST_CHECK_CLOSE(left.GetX(), right.GetX(), 0.00001);
-	BOOST_CHECK_CLOSE(left.GetY(), right.GetY(), 0.00001);
-}
 
 BOOST_FIXTURE_TEST_SUITE(LineSegment_creates, LineSegmentFixture)
 

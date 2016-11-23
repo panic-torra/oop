@@ -23,7 +23,7 @@ protected:
 	void AppendProperties(std::ostream & strm) const override;
 
 private:
-	std::array<CPoint, 3> m_vertices;
+	CPoint m_vertices[3] = {};
 	std::string m_outlineColor;
 	std::string m_fillColor;
 };

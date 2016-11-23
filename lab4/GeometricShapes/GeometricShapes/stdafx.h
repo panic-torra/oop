@@ -12,6 +12,5 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <array>
 
 // TODO: Установите здесь ссылки на дополнительные заголовки, требующиеся для программы

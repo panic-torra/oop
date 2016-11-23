@@ -146,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CLineSegment.h" />
+    <ClInclude Include="CRectangle.h" />
     <ClInclude Include="CTriangle.h" />
     <ClInclude Include="IShape.h" />
     <ClInclude Include="ISolidShape.h" />
@@ -156,6 +157,7 @@
   <ItemGroup>
     <ClCompile Include="CLineSegment.cpp" />
     <ClCompile Include="CPoint.cpp" />
+    <ClCompile Include="CRectangle.cpp" />
     <ClCompile Include="CTriangle.cpp" />
     <ClCompile Include="IShape.cpp" />
     <ClCompile Include="ISolidShape.cpp" />

@@ -165,11 +165,13 @@
   <ItemGroup>
     <ClCompile Include="..\GeometricShapes\CLineSegment.cpp" />
     <ClCompile Include="..\GeometricShapes\CPoint.cpp" />
+    <ClCompile Include="..\GeometricShapes\CRectangle.cpp" />
     <ClCompile Include="..\GeometricShapes\CTriangle.cpp" />
     <ClCompile Include="..\GeometricShapes\IShape.cpp" />
     <ClCompile Include="..\GeometricShapes\ISolidShape.cpp" />
     <ClCompile Include="CLineSegmentTests.cpp" />
     <ClCompile Include="CPointTests.cpp" />
+    <ClCompile Include="CRectangleTests.cpp" />
     <ClCompile Include="CTriangleTests.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PointTest.cpp" />

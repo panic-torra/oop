@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CRectangle.h"
 
-CRectangle::CRectangle(CPoint const & leftTop, double width, double height, std::string const& outlineColor, std::string const & fillColor)
+CRectangle::CRectangle(CPoint const & leftTop, double width, double height, std::string const & outlineColor, std::string const & fillColor)
 	: ISolidShape("Rectangle")
 	, m_leftTop(leftTop)
 	, m_width(width)

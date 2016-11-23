@@ -35,7 +35,7 @@ int CCar::GetGear() const
 
 int CCar::GetDirection()
 {
-	if (m_speed < 0)
+	if (m_speed > 0 && m_gear == Gear::REVERSE)
 	{
 		m_direction = Direction::BACKWARD;
 	}
@@ -97,7 +97,7 @@ bool CCar::SetGear(Gear gear)
 	bool isAvailableGear = (MAX_GEAR >= intGear) && (MIN_GEAR <= intGear) && (m_isTurnOn);
 	if (isAvailableGear)
 	{
-		isSetGear = isAvailableGear && IsSpeedInRange(static_cast<Gear>(gear), GetSpeed()) && CheckGear(gear);
+		isSetGear = IsSpeedInRange(static_cast<Gear>(gear), GetSpeed()) && CheckGear(gear);
 		if (isSetGear)
 		{
 			m_gear = gear;
@@ -112,7 +112,7 @@ bool CCar::SetSpeed(int speed)
 	{
 		if ((m_gear == Gear::NEUTRAL) && (speed <= GetSpeed()) || !(m_gear == Gear::NEUTRAL))
 		{
-			m_speed = (Gear::REVERSE == m_gear) || (m_speed < 0) ? -speed : speed;
+			m_speed = speed;
 			return true;
 		}
 	}

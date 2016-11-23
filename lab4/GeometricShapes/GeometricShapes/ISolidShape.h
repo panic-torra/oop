@@ -4,6 +4,7 @@
 class ISolidShape : public IShape
 {
 public:
+	ISolidShape() = default;
 	ISolidShape(std::string const & type);
 	virtual ~ISolidShape() = default;
 

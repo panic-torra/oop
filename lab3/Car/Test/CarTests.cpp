@@ -125,5 +125,17 @@ BOOST_FIXTURE_TEST_SUITE(Car_class, CarFixture)
 			BOOST_CHECK_EQUAL(car.GetGear(), static_cast<int>(Gear::NEUTRAL));
 		}
 
+		BOOST_AUTO_TEST_CASE(work_with_reverse_gear)
+		{
+			BOOST_CHECK(car.SetGear(Gear::REVERSE));
+			BOOST_CHECK(car.SetSpeed(15));
+			BOOST_CHECK_EQUAL(car.GetDirection(), static_cast<int>(Direction::BACKWARD));
+			BOOST_CHECK(!car.SetGear(Gear::FIRST));
+			BOOST_CHECK(car.SetSpeed(0));
+			BOOST_CHECK(car.SetGear(Gear::FIRST));
+			BOOST_CHECK(car.SetSpeed(15));
+			BOOST_CHECK_EQUAL(car.GetDirection(), static_cast<int>(Direction::FORWARD));
+		}
+
 	BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE_END()

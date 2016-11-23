@@ -89,6 +89,10 @@ BOOST_FIXTURE_TEST_SUITE(CCarController_class, CarControlFixture)
 
 		VerifyCommandHandling("SetGear 1", "Gear was switched on 1\n");
 		VerifyCommandHandling("SetGear 5", "Can't switch gear on 5\n");
+
+		VerifyCommandHandling("SetSpeed 20", "Speed was changed on 20\n");
+		VerifyCommandHandling("SetGear 2", "Gear was switched on 2\n");
+		VerifyCommandHandling("SetSpeed 50", "Speed was changed on 50\n");
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

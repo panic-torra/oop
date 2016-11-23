@@ -15,7 +15,7 @@ void IsPointsEqual(CPoint left, CPoint right)
 	BOOST_CHECK_CLOSE(left.GetY(), right.GetY(), 0.00001);
 }
 
-BOOST_FIXTURE_TEST_SUITE(LineSegment_class, LineSegmentFixture)
+BOOST_FIXTURE_TEST_SUITE(LineSegment_creates, LineSegmentFixture)
 
 	BOOST_AUTO_TEST_CASE(with_outline_color)
 	{

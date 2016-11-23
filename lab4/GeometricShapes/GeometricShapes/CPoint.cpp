@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "ÑPoint.h"
+#include "CPoint.h"
 
 CPoint::CPoint(double x, double y)
 	: m_x(x)

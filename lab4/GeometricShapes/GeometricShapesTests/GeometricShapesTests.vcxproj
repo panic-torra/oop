@@ -153,6 +153,8 @@
     <ClCompile Include="..\GeometricShapes\CLineSegment.cpp" />
     <ClCompile Include="..\GeometricShapes\CPoint.cpp" />
     <ClCompile Include="CLineSegmentTests.cpp" />
+    <ClCompile Include="CPointTests.cpp" />
+    <ClCompile Include="CTriangleTests.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ShapeTests.cpp" />
     <ClCompile Include="stdafx.cpp" />

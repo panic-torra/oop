@@ -33,7 +33,7 @@ struct CarControlFixture : CarControlDependencies
 	}
 };
 
-BOOST_FIXTURE_TEST_SUITE(CCarController_class, CarControlFixture)
+BOOST_FIXTURE_TEST_SUITE(CCarController, CarControlFixture)
 
 	BOOST_AUTO_TEST_CASE(handle_empty_input)
 	{

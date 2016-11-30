@@ -21,7 +21,6 @@ enum class Direction
 
 typedef std::pair<int, int> Speed;
 typedef std::map<Gear, Speed> SpeedRange;
-extern const SpeedRange speedRange;
 
 class CCar
 {
@@ -29,7 +28,7 @@ public:
 
 	int GetGear() const;
 	int GetSpeed() const;
-	int GetDirection();
+	int GetDirection() const;
 
 	bool TurnOnEngine();
 	bool TurnOffEngine();
@@ -41,8 +40,7 @@ public:
 	bool IsEngineTurnOn() const;
 	bool CheckGear(Gear gear) const;
 private:
-	bool m_isTurnOn = false;
+	bool m_isTurnedOn = false;
 	Gear m_gear = Gear::NEUTRAL;
 	int m_speed = 0;
-	Direction m_direction = Direction::NONE;
 };

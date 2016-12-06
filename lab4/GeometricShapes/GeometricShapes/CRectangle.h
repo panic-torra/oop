@@ -29,3 +29,5 @@ private:
 	std::string m_outlineColor;
 	std::string m_fillColor;
 };
+
+bool operator >> (std::istream & input, std::shared_ptr<CRectangle> & rectangle);

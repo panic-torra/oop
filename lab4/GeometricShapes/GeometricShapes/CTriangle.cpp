@@ -58,3 +58,18 @@ void CTriangle::AppendProperties(std::ostream & strm) const
 {
 	strm << "  FillColor = " << GetFillColor();
 }
+
+bool operator >> (std::istream & input, std::shared_ptr<CTriangle> & triangle)
+{
+	CPoint point1;
+	CPoint point2;
+	CPoint point3;
+	std::string outlineColor;
+	std::string fillColor;
+	if (input >> point1 && input >> point2 && input >> point3 && input >> outlineColor && input >> fillColor)
+	{
+		triangle = std::make_shared<CTriangle>(point1, point2, point3, outlineColor, fillColor);
+		return true;
+	}
+	return false;
+}

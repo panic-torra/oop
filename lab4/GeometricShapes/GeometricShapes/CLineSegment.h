@@ -25,3 +25,5 @@ private:
 	CPoint m_endPoint;
 	std::string m_outlineColor;
 };
+
+bool operator >> (std::istream & input, std::shared_ptr<CLineSegment> & line);

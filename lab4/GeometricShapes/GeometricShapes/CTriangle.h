@@ -6,7 +6,7 @@
 class CTriangle : public ISolidShape
 {
 public:
-	CTriangle(CPoint const & vertex1, CPoint const & vertex2, CPoint const & vertex3,
+	CTriangle(CPoint const & point1, CPoint const & point2, CPoint const & point3,
 		std::string const & outlineColor, std::string const & fillColor);
 	virtual ~CTriangle() = default;
 
@@ -27,3 +27,5 @@ private:
 	std::string m_outlineColor;
 	std::string m_fillColor;
 };
+
+bool operator >> (std::istream & input, std::shared_ptr<CTriangle> & triangle);

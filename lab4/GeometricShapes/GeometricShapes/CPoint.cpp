@@ -21,3 +21,12 @@ double CPoint::GetY() const
 {
 	return m_y;
 }
+
+bool operator >> (std::istream & input, CPoint & point)
+{
+	if (input >> point.m_x && input >> point.m_y)
+	{
+		return true;
+	}
+	return false;
+}

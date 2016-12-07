@@ -26,16 +26,19 @@ bool CControl::HandleCommand()
 {
 	string commandLine;
 	getline(m_input, commandLine);
-	if (commandLine.empty())
-	{
-		return false;
-	}
+	istringstream strm(commandLine);
 
-	string action(commandLine);
+	string action;
+	strm >> action;
 
 	std::shared_ptr<IShape> shape;
-	m_actionMap[action](commandLine, shape);
-	m_shapes.push_back(shape);
+
+	auto it = m_actionMap.find(action);
+	if (it != m_actionMap.end())
+	{
+		it->second(strm, shape);
+		m_shapes.push_back(shape);
+	}
 
 	return true;
 }
@@ -98,18 +101,18 @@ bool CControl::CreateCircle(std::istream & args, std::shared_ptr<IShape> &shape)
 
 std::shared_ptr<IShape> CControl::GetMaxAreaShape(std::vector<std::shared_ptr<IShape>> const& shapes) const
 {
-	return (shapes.empty()) ? nullptr : *max_element(shapes.begin(), shapes.end(),
+	return (shapes.empty()) ? nullptr : *std::max_element(shapes.begin(), shapes.end(),
 		[&](std::shared_ptr<IShape> const& shape1, std::shared_ptr<IShape> const& shape2)
 	{
-		return shape1->GetArea() > shape2->GetArea();
+		return shape1->GetArea() < shape2->GetArea();
 	});
 }
 
 std::shared_ptr<IShape> CControl::GetMinPerimeterShape(std::vector<std::shared_ptr<IShape>> const& shapes) const
 {
-	return (shapes.empty()) ? nullptr : *min_element(shapes.begin(), shapes.end(),
+	return (shapes.empty()) ? nullptr : *std::min_element(shapes.begin(), shapes.end(),
 		[&](std::shared_ptr<IShape> const& shape1, std::shared_ptr<IShape> const& shape2)
 	{
-		return shape1->GetPerimeter() < shape2->GetPerimeter();
+		return shape1->GetPerimeter() > shape2->GetPerimeter();
 	});
 }

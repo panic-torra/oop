@@ -2,7 +2,8 @@
 #include "CLineSegment.h"
 
 CLineSegment::CLineSegment(const CPoint & start, const CPoint & end, const std::string & outlineColor)
-	:m_startPoint(start)
+	: IShape("line")
+	, m_startPoint(start)
 	, m_endPoint(end)
 	, m_outlineColor(outlineColor)
 {

@@ -17,6 +17,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <algorithm> 
 #define _USE_MATH_DEFINES
 #include <math.h>
 // TODO: Установите здесь ссылки на дополнительные заголовки, требующиеся для программы

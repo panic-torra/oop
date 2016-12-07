@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
 		cout << "Failed to open " << argv[1] << " for writing\n";
 		return 1;
 	}
+
 	CControl control(inputFile, cout);
 
 	while (!inputFile.fail())

@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "../GeometricShapes/CLineSegment.h"
-#include "PointTest.h"
 
 struct LineSegmentFixture
 {

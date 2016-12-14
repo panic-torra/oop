@@ -20,4 +20,5 @@
 #include <algorithm> 
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <map>
 // TODO: Установите здесь ссылки на дополнительные заголовки, требующиеся для программы

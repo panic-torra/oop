@@ -164,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\GeometricShapes\CCircle.cpp" />
+    <ClCompile Include="..\GeometricShapes\CControl.cpp" />
     <ClCompile Include="..\GeometricShapes\CLineSegment.cpp" />
     <ClCompile Include="..\GeometricShapes\CPoint.cpp" />
     <ClCompile Include="..\GeometricShapes\CRectangle.cpp" />
@@ -171,6 +172,7 @@
     <ClCompile Include="..\GeometricShapes\IShape.cpp" />
     <ClCompile Include="..\GeometricShapes\ISolidShape.cpp" />
     <ClCompile Include="CCircleTests.cpp" />
+    <ClCompile Include="CControlTests.cpp" />
     <ClCompile Include="CLineSegmentTests.cpp" />
     <ClCompile Include="CPointTests.cpp" />
     <ClCompile Include="CRectangleTests.cpp" />

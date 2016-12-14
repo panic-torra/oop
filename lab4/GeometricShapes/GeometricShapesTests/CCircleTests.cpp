@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "../GeometricShapes/CPoint.h"
 #include "../GeometricShapes/CCircle.h"
-#include "PointTest.h"
-#define _USE_MATH_DEFINES
-#include <math.h>
 
 struct CircleFixture
 {

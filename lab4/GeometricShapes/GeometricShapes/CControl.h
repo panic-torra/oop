@@ -1,4 +1,5 @@
 #pragma once
+#include "stdafx.h"
 #include <boost/noncopyable.hpp>
 
 class IShape;
@@ -24,5 +25,5 @@ private:
 	std::ostream & m_output;
 	std::vector<std::shared_ptr<IShape>> m_shapes;
 
-	const std::map<std::string const, std::function<bool(std::istream & args, std::shared_ptr<IShape> &shape)>> m_actionMap;
+	const std::map<std::string const, std::function<bool(std::istream & args, std::shared_ptr<IShape> & shape)>> m_actionMap;
 };

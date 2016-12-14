@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "../GeometricShapes/CPoint.h"
 #include "../GeometricShapes/CTriangle.h"
-#include "PointTest.h"
 
 struct TriangleFixture_
 {

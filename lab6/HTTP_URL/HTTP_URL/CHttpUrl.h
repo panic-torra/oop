@@ -1,22 +1,13 @@
 #pragma once
 #include "stdafx.h"
-
-enum Protocol
-{
-	HTTP,
-	HTTPS
-};
+#include "CUrlParsingError.h"
 
 class CHttpUrl
 {
 public:
 
-	CHttpUrl(std::string const& url);
-	CHttpUrl(
-		std::string const& domain,
-		std::string const& document,
-		Protocol protocol = HTTP,
-		unsigned short port = 80);
+	CHttpUrl(std::string const & url);
+	CHttpUrl(std::string const & domain, std::string const & document, Protocol protocol = Protocol::HTTP, unsigned short port = 80);
 
 	~CHttpUrl() = default;
 
@@ -26,6 +17,8 @@ public:
 	Protocol GetProtocol()const;
 	unsigned short GetPort()const;
 
+	std::string ProtocolToStr();
+
 private:
 	std::string m_domain;
 	std::string m_document;
@@ -33,4 +26,8 @@ private:
 	unsigned short m_port;
 
 	void ParseUrl(std::string const & url);
+	std::string ParseProtocol(std::string const & url);
+	std::string ParseDomain(std::string const & url);
+	Protocol GetProtocolType(std::string const & protocolStr);
+
 };

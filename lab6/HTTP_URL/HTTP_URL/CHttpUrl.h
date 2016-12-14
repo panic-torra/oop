@@ -9,8 +9,6 @@ public:
 	CHttpUrl(std::string const & url);
 	CHttpUrl(std::string const & domain, std::string const & document, Protocol protocol, unsigned short port);
 
-	~CHttpUrl() = default;
-
 	std::string GetURL()const;
 	std::string GetDomain()const;
 	std::string GetDocumentPath()const;

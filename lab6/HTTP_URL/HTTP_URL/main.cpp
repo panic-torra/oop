@@ -23,9 +23,9 @@ int main(int argc, char *argv[])
 				std::cout << "HTTPS";
 			}
 			std::cout << std::endl
-				<< "Domain name: " << url.GetDomain() << std::endl
-				<< "Document: " << url.GetDocumentPath() << std::endl
-				<< "Port: " << url.GetPort() << std::endl;
+				<< "Domain: " << url.GetDomain() << std::endl
+				<< "Port: " << url.GetPort() << std::endl
+				<< "Document path: " << url.GetDocumentPath() << std::endl;
 		}
 		catch (std::invalid_argument const & error)
 		{

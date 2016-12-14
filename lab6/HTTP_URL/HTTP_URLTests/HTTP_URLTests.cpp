@@ -122,8 +122,8 @@ BOOST_AUTO_TEST_SUITE(CHttpUrl_)
 		BOOST_AUTO_TEST_CASE(objects_without_mistakes)
 		{
 			{
-				CHttpUrl url("google.com", "src/img/image.png", Protocol::HTTPS, 452);
-				BOOST_CHECK_EQUAL(url.GetURL(), "https://google.com:452/src/img/image.png");
+				CHttpUrl url("google.com", "src/img/image.png", Protocol::HTTPS, 443);
+				BOOST_CHECK_EQUAL(url.GetURL(), "https://google.com/src/img/image.png");
 			}
 			{
 				CHttpUrl url("google.com/", "/src/img/image.png", Protocol::HTTP, 42);

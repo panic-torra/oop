@@ -16,7 +16,12 @@ CHttpUrl::CHttpUrl(std::string const & domain, std::string const & document, Pro
 
 std::string CHttpUrl::GetURL() const
 {
-	return ProtocolToStr() + "://" + m_domain + ":" + std::to_string(m_port) + m_document;
+	auto url = ProtocolToStr() + "://" + m_domain;
+	if (m_port != 80 && m_port != 443)
+	{
+		url += ":" + std::to_string(m_port);
+	}
+	return  url + m_document;
 }
 
 std::string CHttpUrl::GetDomain() const
@@ -83,7 +88,6 @@ std::string CHttpUrl::ParseDomain(std::string const & url)
 	{
 		end = url.find("/");
 	}
-	 
 	auto domain = url.substr(0, end);
 	return (domain == "" || (domain.find(' ') != std::string::npos)) ?	
 		throw std::invalid_argument("Invalid URL domain.") : domain;

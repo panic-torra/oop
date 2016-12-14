@@ -12,11 +12,20 @@ BOOST_AUTO_TEST_SUITE(CHttpUrl_)
 		
 		BOOST_AUTO_TEST_CASE(without_mistakes)
 		{
-			CHttpUrl urlHttp("http://www.google.com/");
-			BOOST_CHECK_EQUAL(urlHttp.ProtocolToStr(), "http");
+			{
+				CHttpUrl urlHttp("http://www.google.com/");
+				BOOST_CHECK_EQUAL(urlHttp.ProtocolToStr(), "http");
 
-			CHttpUrl urlHttps("https://www.google.com/");
-			BOOST_CHECK_EQUAL(urlHttps.ProtocolToStr(), "https");
+				CHttpUrl urlHttps("https://www.google.com/");
+				BOOST_CHECK_EQUAL(urlHttps.ProtocolToStr(), "https");
+			}
+			{
+				CHttpUrl urlHttp("http://www.google.com/");
+				BOOST_CHECK(urlHttp.GetProtocol() == Protocol::HTTP);
+
+				CHttpUrl urlHttps("https://www.google.com/");
+				BOOST_CHECK(urlHttps.GetProtocol() == Protocol::HTTPS);
+			}
 		}
 	BOOST_AUTO_TEST_SUITE_END()
 

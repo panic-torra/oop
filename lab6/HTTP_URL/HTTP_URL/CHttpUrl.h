@@ -7,17 +7,17 @@ class CHttpUrl
 public:
 
 	CHttpUrl(std::string const & url);
-	CHttpUrl(std::string const & domain, std::string const & document, Protocol protocol = Protocol::HTTP, unsigned short port = 80);
+	CHttpUrl(std::string const & domain, std::string const & document, Protocol protocol, unsigned short port);
 
 	~CHttpUrl() = default;
 
 	std::string GetURL()const;
 	std::string GetDomain()const;
-	std::string GetDocument()const;
+	std::string GetDocumentPath()const;
 	Protocol GetProtocol()const;
 	unsigned short GetPort()const;
 
-	std::string ProtocolToStr();
+	std::string ProtocolToStr()const;
 
 private:
 	std::string m_domain;
@@ -28,6 +28,8 @@ private:
 	void ParseUrl(std::string const & url);
 	std::string ParseProtocol(std::string const & url);
 	std::string ParseDomain(std::string const & url);
-	Protocol GetProtocolType(std::string const & protocolStr);
+	std::string ParsePort(std::string const & url);
+	std::string ParseDocumentPath(std::string const & url);
 
+	Protocol StrToProtocol(std::string const & protocolStr);
 };

@@ -16,20 +16,20 @@ int main(int argc, char *argv[])
 			auto protocol = url.GetProtocol();
 			if (url.GetProtocol() == Protocol::HTTP)
 			{
-				std::cout << "http";
+				std::cout << "HTTP";
 			}
 			else
 			{
-				std::cout << "https";
+				std::cout << "HTTPS";
 			}
 			std::cout << std::endl
 				<< "Domain name: " << url.GetDomain() << std::endl
 				<< "Document: " << url.GetDocumentPath() << std::endl
 				<< "Port: " << url.GetPort() << std::endl;
 		}
-		catch (std::invalid_argument const & err)
+		catch (std::invalid_argument const & error)
 		{
-			std::cout << err.what() << std::endl;
+			std::cout << error.what() << std::endl;
 		}
 	}
 	return 0;

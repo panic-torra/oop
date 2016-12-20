@@ -11,7 +11,6 @@ public:
 
 	double GetArea() const;
 	double GetPerimeter() const override;
-	std::string ToString() const;
 
 	CPoint GetStartPoint() const;
 	CPoint GetEndPoint() const;

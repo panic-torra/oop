@@ -10,7 +10,7 @@ public:
 	CControl() = default;
 	CControl(std::istream &in, std::ostream &out);
 	~CControl() = default;
-	void HandleCommand();
+	bool HandleCommand();
 	void PrintInfo() const;
 
 private:

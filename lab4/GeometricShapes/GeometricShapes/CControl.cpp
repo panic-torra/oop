@@ -22,7 +22,7 @@ CControl::CControl(std::istream & input, std::ostream & output)
 {
 }
 
-void CControl::HandleCommand()
+bool CControl::HandleCommand()
 {
 	string commandLine;
 	getline(m_input, commandLine);
@@ -39,6 +39,12 @@ void CControl::HandleCommand()
 		it->second(strm, shape);
 		m_shapes.push_back(shape);
 	}
+	else
+	{
+		return false;
+	}
+
+	return true;
 }
 
 void CControl::PrintInfo() const

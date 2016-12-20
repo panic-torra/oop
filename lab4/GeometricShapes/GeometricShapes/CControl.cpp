@@ -22,7 +22,7 @@ CControl::CControl(std::istream & input, std::ostream & output)
 {
 }
 
-bool CControl::HandleCommand()
+void CControl::HandleCommand()
 {
 	string commandLine;
 	getline(m_input, commandLine);
@@ -39,8 +39,6 @@ bool CControl::HandleCommand()
 		it->second(strm, shape);
 		m_shapes.push_back(shape);
 	}
-
-	return true;
 }
 
 void CControl::PrintInfo() const
@@ -49,9 +47,9 @@ void CControl::PrintInfo() const
 	{
 		m_output << shape->ToString() << "\n";
 	}
-	m_output << "Shape with max area: \n"
+	m_output << "Shape with max area:\n"
 		<< GetMaxAreaShape(m_shapes)->ToString() << "\n";
-	m_output << "Shape with max perimeter: \n"
+	m_output << "Shape with max perimeter:\n"
 		<< GetMinPerimeterShape(m_shapes)->ToString() << "\n";
 }
 

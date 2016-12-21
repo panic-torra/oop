@@ -27,10 +27,6 @@ BOOST_FIXTURE_TEST_SUITE(Rectangle, RectangleFixture)
 		{
 			IsPointsEqual(rectangle.GetLeftTop(), { 0, 0 });
 		}
-		BOOST_AUTO_TEST_CASE(with_right_bottom)
-		{
-			IsPointsEqual(rectangle.GetRightBottom(), { 20, 30 });
-		}
 		BOOST_AUTO_TEST_CASE(with_width)
 		{
 			BOOST_CHECK_EQUAL(rectangle.GetWidth(), 20);

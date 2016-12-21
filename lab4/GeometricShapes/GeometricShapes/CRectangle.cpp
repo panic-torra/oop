@@ -9,7 +9,6 @@ CRectangle::CRectangle(CPoint const & leftTop, double width, double height, std:
 	, m_outlineColor(outlineColor)
 	, m_fillColor(fillColor)
 {
-	m_rightBottom = CPoint(leftTop.GetX() + width, leftTop.GetY() + height);
 }
 
 double CRectangle::GetWidth() const
@@ -25,11 +24,6 @@ double CRectangle::GetHeight() const
 CPoint const & CRectangle::GetLeftTop() const
 {
 	return m_leftTop;
-}
-
-CPoint const & CRectangle::GetRightBottom() const
-{
-	return m_rightBottom;
 }
 
 std::string CRectangle::GetOutlineColor() const

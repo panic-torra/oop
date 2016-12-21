@@ -51,29 +51,29 @@ BOOST_AUTO_TEST_SUITE(CHttpUrl_)
 
 	BOOST_AUTO_TEST_CASE(can_handle_url_with_errors_in_port)
 	{
-		BOOST_REQUIRE_THROW(CHttpUrl url("http://google.com: /"), CUrlParsingError);
-		BOOST_REQUIRE_THROW(CHttpUrl url("http://google.com:0/"), CUrlParsingError);
-		BOOST_REQUIRE_THROW(CHttpUrl url("http://google.com:65536/"), CUrlParsingError);
-		BOOST_REQUIRE_THROW(CHttpUrl url("http://google.com:75536/"), CUrlParsingError);
+		BOOST_REQUIRE_THROW(CHttpUrl url("http://google.com: "), CUrlParsingError);
+		BOOST_REQUIRE_THROW(CHttpUrl url("http://google.com:0"), CUrlParsingError);
+		BOOST_REQUIRE_THROW(CHttpUrl url("http://google.com:65536"), CUrlParsingError);
+		BOOST_REQUIRE_THROW(CHttpUrl url("http://google.com:75536"), CUrlParsingError);
 	}
 
 	BOOST_AUTO_TEST_CASE(can_parse_port)
 	{
 		{
-			CHttpUrl url("http://google.com/");
+			CHttpUrl url("http://google.com");
 			BOOST_CHECK_EQUAL(url.GetPort(), 80);
 		}
 		{
-			CHttpUrl url("http://google.com:65535/");
+			CHttpUrl url("http://google.com:65535");
 			BOOST_CHECK_EQUAL(url.GetPort(), 65535);
 		}
 		{
-			CHttpUrl url("http://google.com:120/");
+			CHttpUrl url("http://google.com:120");
 			BOOST_CHECK_EQUAL(url.GetPort(), 120);
 		}
 
 		{
-			CHttpUrl url("http://google.com:430/");
+			CHttpUrl url("http://google.com:430");
 			BOOST_CHECK_EQUAL(url.GetPort(), 430);
 		}
 	}
@@ -112,13 +112,13 @@ BOOST_AUTO_TEST_SUITE(CHttpUrl_)
 			}
 		}
 
-		BOOST_AUTO_TEST_CASE(objects_with_mistakes)
+		BOOST_AUTO_TEST_CASE(objects_with_errors)
 		{
 			BOOST_REQUIRE_THROW(CHttpUrl url("www.google. m", "src/image.png", Protocol::HTTP, 15), std::invalid_argument);
 			BOOST_REQUIRE_THROW(CHttpUrl url("www.google.com", "src/ima ge.png", Protocol::HTTPS, 42), std::invalid_argument);
 		}
 
-		BOOST_AUTO_TEST_CASE(objects_without_mistakes)
+		BOOST_AUTO_TEST_CASE(objects_without_errors)
 		{
 			{
 				CHttpUrl url("google.com", "src/img/image.png", Protocol::HTTPS, 443);
@@ -129,6 +129,12 @@ BOOST_AUTO_TEST_SUITE(CHttpUrl_)
 				CHttpUrl url("google.com", "src/img/image.png", Protocol::HTTPS);
 				BOOST_CHECK_EQUAL(url.GetURL(), "https://google.com/src/img/image.png");
 				BOOST_CHECK_EQUAL(url.GetPort(), 443);
+			}
+
+			{
+				CHttpUrl url("google.com", "src/img/image.png", Protocol::HTTP);
+				BOOST_CHECK_EQUAL(url.GetURL(), "http://google.com/src/img/image.png");
+				BOOST_CHECK_EQUAL(url.GetPort(), 80);
 			}
 
 			{

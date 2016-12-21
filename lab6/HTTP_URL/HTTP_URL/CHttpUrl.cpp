@@ -127,7 +127,7 @@ void CHttpUrl::ParseUrl(std::string const & url)
 	auto end = url.find("/");
 	auto port = url.substr(1, end);
 
-	return (port.empty() || (port.find(' ') != std::string::npos || port == "0/" || port >= "65536/")) ?
+	return (port.empty() || (port.find(' ') != std::string::npos || std::stoi(port) <= 0 || std::stoi(port) >= 65536)) ?
 		throw CUrlParsingError("Invalid URL port.") : port;
 }
 

@@ -20,6 +20,11 @@ public:
 
 
 private:
+	static std::string ParseProtocol(std::string const & url);
+	static std::string ParseDomain(std::string const & url);
+	static std::string ParsePort(std::string const & url);
+	static std::string ParseDocumentPath(std::string const & url);
+
 	std::string m_domain;
 	std::string m_document = "/";
 	Protocol m_protocol = Protocol::HTTP;
@@ -27,11 +32,6 @@ private:
 
 	void ParseUrl(std::string const & url);
 };
-
-std::string ParseProtocol(std::string const & url);
-std::string ParseDomain(std::string const & url);
-std::string ParsePort(std::string const & url);
-std::string ParseDocumentPath(std::string const & url);
 
 Protocol StrToProtocol(std::string const & protocolStr);
 std::string ProtocolToStr(Protocol protocol);

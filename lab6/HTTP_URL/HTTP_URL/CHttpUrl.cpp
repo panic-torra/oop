@@ -98,7 +98,7 @@ void CHttpUrl::ParseUrl(std::string const & url)
 }
 
 
- std::string ParseProtocol(std::string const & url)
+ std::string CHttpUrl::ParseProtocol(std::string const & url)
 {
 	auto end = url.find("://");
 
@@ -110,7 +110,7 @@ void CHttpUrl::ParseUrl(std::string const & url)
 	return url.substr(0, end);
 }
 
- std::string ParseDomain( std::string const & url)
+ std::string CHttpUrl::ParseDomain( std::string const & url)
 {
 	auto end = url.find(':');
 	if (end == std::string::npos)
@@ -122,7 +122,7 @@ void CHttpUrl::ParseUrl(std::string const & url)
 		throw std::invalid_argument("Invalid URL domain.") : domain;
 }
 
- std::string ParsePort( std::string const & url)
+ std::string CHttpUrl::ParsePort( std::string const & url)
 {
 	auto end = url.find("/");
 	auto port = url.substr(1, end);
@@ -131,7 +131,7 @@ void CHttpUrl::ParseUrl(std::string const & url)
 		throw CUrlParsingError("Invalid URL port.") : port;
 }
 
- std::string ParseDocumentPath( std::string const & url)
+ std::string CHttpUrl::ParseDocumentPath( std::string const & url)
 {
 	auto document = (url[0] != '/') ? '/' + url : url;
 	return ((document.find(' ') != std::string::npos)) ?

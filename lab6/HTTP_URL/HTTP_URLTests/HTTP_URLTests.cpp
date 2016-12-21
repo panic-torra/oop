@@ -3,98 +3,97 @@
 #include "../HTTP_URL/CUrlParsingError.h"
 
 BOOST_AUTO_TEST_SUITE(CHttpUrl_)
-	BOOST_AUTO_TEST_SUITE(can_parse_protocol)
-		BOOST_AUTO_TEST_CASE(with_mistakes)
-		{
-			BOOST_REQUIRE_THROW(CHttpUrl url("htp://www.google.com/"), CUrlParsingError);
-			BOOST_REQUIRE_THROW(CHttpUrl url("krya/www.goole.com/"), CUrlParsingError);
-		}
+	BOOST_AUTO_TEST_CASE(can_handle_url_with_errors_in_protocol)
+	{
+		BOOST_REQUIRE_THROW(CHttpUrl url("htp://www.google.com/"), CUrlParsingError);
+		BOOST_REQUIRE_THROW(CHttpUrl url("krya/www.goole.com/"), CUrlParsingError);
+	}
 		
-		BOOST_AUTO_TEST_CASE(without_mistakes)
+	BOOST_AUTO_TEST_CASE(can_parse_protocol)
+	{
 		{
-			{
-				CHttpUrl urlHttp("http://www.google.com/");
-				BOOST_CHECK_EQUAL(urlHttp.ProtocolToStr(), "http");
+			CHttpUrl urlHttp("http://www.google.com/");
+			BOOST_CHECK_EQUAL(ProtocolToStr(urlHttp.GetProtocol()), "http");
 
-				CHttpUrl urlHttps("https://www.google.com/");
-				BOOST_CHECK_EQUAL(urlHttps.ProtocolToStr(), "https");
-			}
-			{
-				CHttpUrl urlHttp("http://www.google.com/");
-				BOOST_CHECK(urlHttp.GetProtocol() == Protocol::HTTP);
-
-				CHttpUrl urlHttps("https://www.google.com/");
-				BOOST_CHECK(urlHttps.GetProtocol() == Protocol::HTTPS);
-			}
+			CHttpUrl urlHttps("https://www.google.com/");
+			BOOST_CHECK_EQUAL(ProtocolToStr(urlHttps.GetProtocol()), "https");
 		}
-	BOOST_AUTO_TEST_SUITE_END()
-
-	BOOST_AUTO_TEST_SUITE(can_parse_domain)
-		BOOST_AUTO_TEST_CASE(with_mistakes)
 		{
-			BOOST_REQUIRE_THROW(CHttpUrl url("http://www.googl e.com/"), std::invalid_argument);
-			BOOST_REQUIRE_THROW(CHttpUrl url("http:///"), std::invalid_argument);
+			CHttpUrl urlHttp("http://www.google.com/");
+			BOOST_CHECK(urlHttp.GetProtocol() == Protocol::HTTP);
+
+			CHttpUrl urlHttps("https://www.google.com/");
+			BOOST_CHECK(urlHttps.GetProtocol() == Protocol::HTTPS);
 		}
+	}
 
-		BOOST_AUTO_TEST_CASE(without_mistakes)
+	BOOST_AUTO_TEST_CASE(can_handle_url_with_errors)
+	{
+		BOOST_REQUIRE_THROW(CHttpUrl url("http://www.googl e.com/"), std::invalid_argument);
+		BOOST_REQUIRE_THROW(CHttpUrl url("http:///"), std::invalid_argument);
+	}
+
+	BOOST_AUTO_TEST_CASE(can_parse_domain)
+	{
 		{
-			{
-				CHttpUrl url("http://www.google.com/index.php");
-				BOOST_CHECK_EQUAL(url.GetDomain(), "www.google.com");
-			}
-			{			
-				CHttpUrl url("https://google.com/");
-				BOOST_CHECK_EQUAL(url.GetDomain(), "google.com");
-			}
-			{
-				CHttpUrl url("https://domain");
-				BOOST_CHECK_EQUAL(url.GetDomain(), "domain");
-			}
+			CHttpUrl url("http://www.google.com/index.php");
+			BOOST_CHECK_EQUAL(url.GetDomain(), "www.google.com");
 		}
-	BOOST_AUTO_TEST_SUITE_END()
-
-	BOOST_AUTO_TEST_SUITE(can_parse_port)
-		BOOST_AUTO_TEST_CASE(with_mistakes)
-		{
-			BOOST_REQUIRE_THROW(CHttpUrl url("http://google.com: /"), CUrlParsingError);
+		{			
+			CHttpUrl url("https://google.com/");
+			BOOST_CHECK_EQUAL(url.GetDomain(), "google.com");
 		}
-
-		BOOST_AUTO_TEST_CASE(without_mistakes)
 		{
-			{
-				CHttpUrl url("http://google.com/");
-				BOOST_CHECK_EQUAL(url.GetPort(), 80);
-			}
-			{
-				CHttpUrl url("http://google.com:120/");
-				BOOST_CHECK_EQUAL(url.GetPort(), 120);
-			}
-
-			{
-				CHttpUrl url("http://google.com:430/");
-				BOOST_CHECK_EQUAL(url.GetPort(), 430);
-			}
+			CHttpUrl url("https://domain");
+			BOOST_CHECK_EQUAL(url.GetDomain(), "domain");
 		}
-	BOOST_AUTO_TEST_SUITE_END()
+	}
 
-	BOOST_AUTO_TEST_SUITE(can_parse_document_path)
-		BOOST_AUTO_TEST_CASE(with_mistakes)
+	BOOST_AUTO_TEST_CASE(can_handle_url_with_errors_in_port)
+	{
+		BOOST_REQUIRE_THROW(CHttpUrl url("http://google.com: /"), CUrlParsingError);
+		BOOST_REQUIRE_THROW(CHttpUrl url("http://google.com:0/"), CUrlParsingError);
+		BOOST_REQUIRE_THROW(CHttpUrl url("http://google.com:65536/"), CUrlParsingError);
+		BOOST_REQUIRE_THROW(CHttpUrl url("http://google.com:75536/"), CUrlParsingError);
+	}
+
+	BOOST_AUTO_TEST_CASE(can_parse_port)
+	{
 		{
-			BOOST_REQUIRE_THROW(CHttpUrl url("http://www.google.com/i mage"), std::invalid_argument);
+			CHttpUrl url("http://google.com/");
+			BOOST_CHECK_EQUAL(url.GetPort(), 80);
+		}
+		{
+			CHttpUrl url("http://google.com:65535/");
+			BOOST_CHECK_EQUAL(url.GetPort(), 65535);
+		}
+		{
+			CHttpUrl url("http://google.com:120/");
+			BOOST_CHECK_EQUAL(url.GetPort(), 120);
 		}
 
-		BOOST_AUTO_TEST_CASE(without_mistakes)
 		{
-			{
-				CHttpUrl url("http://www.google.com/index.php");
-				BOOST_CHECK_EQUAL(url.GetDocumentPath(), "/index.php");
-			}
-			{
-				CHttpUrl url("https://google.com/img/bg.png");
-				BOOST_CHECK_EQUAL(url.GetDocumentPath(), "/img/bg.png");
-			}
+			CHttpUrl url("http://google.com:430/");
+			BOOST_CHECK_EQUAL(url.GetPort(), 430);
 		}
-	BOOST_AUTO_TEST_SUITE_END()
+	}
+
+	BOOST_AUTO_TEST_CASE(can_handle_url_with_errors_in_document_path)
+	{
+		BOOST_REQUIRE_THROW(CHttpUrl url("http://www.google.com/i mage"), std::invalid_argument);
+	}
+
+	BOOST_AUTO_TEST_CASE(can_parse_document_path)
+	{
+		{
+			CHttpUrl url("http://www.google.com/index.php");
+			BOOST_CHECK_EQUAL(url.GetDocumentPath(), "/index.php");
+		}
+		{
+			CHttpUrl url("https://google.com/img/bg.png");
+			BOOST_CHECK_EQUAL(url.GetDocumentPath(), "/img/bg.png");
+		}
+	}
 
 	BOOST_AUTO_TEST_SUITE(can_return_full_url_by)
 		BOOST_AUTO_TEST_CASE(str)
@@ -125,6 +124,39 @@ BOOST_AUTO_TEST_SUITE(CHttpUrl_)
 				CHttpUrl url("google.com", "src/img/image.png", Protocol::HTTPS, 443);
 				BOOST_CHECK_EQUAL(url.GetURL(), "https://google.com/src/img/image.png");
 			}
+
+			{
+				CHttpUrl url("google.com", "src/img/image.png", Protocol::HTTPS);
+				BOOST_CHECK_EQUAL(url.GetURL(), "https://google.com/src/img/image.png");
+				BOOST_CHECK_EQUAL(url.GetPort(), 443);
+			}
+
+			{
+				CHttpUrl url("google.com", "src/img/image.png", 73);
+				BOOST_CHECK_EQUAL(url.GetURL(), "http://google.com:73/src/img/image.png");
+			}
+
+			{
+				CHttpUrl url("google.com", "src/img/image.png");
+				BOOST_CHECK_EQUAL(url.GetURL(), "http://google.com/src/img/image.png");
+				BOOST_CHECK_EQUAL(url.GetPort(), 80);
+			}
+
+			{
+				CHttpUrl url("google.com", "src/img/image.png", Protocol::HTTP, 443);
+				BOOST_CHECK_EQUAL(url.GetURL(), "http://google.com:443/src/img/image.png");
+			}
+
+			{
+				CHttpUrl url("google.com", "src/img/image.png", Protocol::HTTPS, 80);
+				BOOST_CHECK_EQUAL(url.GetURL(), "https://google.com:80/src/img/image.png");
+			}
+
+			{
+				CHttpUrl url("google.com", "src/img/image.png", Protocol::HTTP, 80);
+				BOOST_CHECK_EQUAL(url.GetURL(), "http://google.com/src/img/image.png");
+			}
+
 			{
 				CHttpUrl url("google.com/", "/src/img/image.png", Protocol::HTTP, 42);
 				BOOST_CHECK_EQUAL(url.GetURL(), "http://google.com:42/src/img/image.png");

@@ -8,26 +8,30 @@ public:
 
 	CHttpUrl(std::string const & url);
 	CHttpUrl(std::string const & domain, std::string const & document, Protocol protocol, unsigned short port);
+	CHttpUrl(std::string const & domain, std::string const & document, Protocol protocol);
+	CHttpUrl(std::string const & domain, std::string const & document, unsigned short port);
+	CHttpUrl(std::string const & domain, std::string const & document);
 
 	std::string GetURL()const;
 	std::string GetDomain()const;
 	std::string GetDocumentPath()const;
 	Protocol GetProtocol()const;
-	unsigned short GetPort()const;
+	unsigned GetPort()const;
 
-	std::string ProtocolToStr()const;
 
 private:
 	std::string m_domain;
-	std::string m_document;
-	Protocol m_protocol;
-	unsigned short m_port;
+	std::string m_document = "\\";
+	Protocol m_protocol = Protocol::HTTP;
+	unsigned m_port = 80;
 
 	void ParseUrl(std::string const & url);
-	std::string ParseProtocol(std::string const & url);
-	std::string ParseDomain(std::string const & url);
-	std::string ParsePort(std::string const & url);
-	std::string ParseDocumentPath(std::string const & url);
-
-	Protocol StrToProtocol(std::string const & protocolStr);
 };
+
+static std::string ParseProtocol(std::string const & url);
+static std::string ParseDomain(std::string const & url);
+static std::string ParsePort(std::string const & url);
+static std::string ParseDocumentPath(std::string const & url);
+
+static Protocol StrToProtocol(std::string const & protocolStr);
+std::string ProtocolToStr(Protocol protocol);

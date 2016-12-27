@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "../CMyList/CMyArray.h"
 
+#include <iostream>
+
 using namespace std;
 
 struct ArrayItem
@@ -74,7 +76,18 @@ BOOST_FIXTURE_TEST_SUITE(MyArray, EmptyStringArray)
 			BOOST_CHECK_EQUAL(arr[0].value, 0);
 			BOOST_CHECK_EQUAL(arr[4].value, 4);
 			BOOST_CHECK_EQUAL(arr[5].value, 5);
+		}
 
+		BOOST_AUTO_TEST_CASE(can_be_cleaned)
+		{
+			for (auto i = 0; i < 6; ++i)
+			{
+				arr.Append(i);
+			}
+			
+			arr.Clear();
+			BOOST_CHECK_EQUAL(arr.GetSize(), 0u);
+			BOOST_CHECK_EQUAL(arr.GetCapacity(), 0u);
 		}
 
 	BOOST_AUTO_TEST_SUITE_END()
@@ -94,4 +107,5 @@ BOOST_FIXTURE_TEST_SUITE(MyArray, EmptyStringArray)
 		}
 
 	BOOST_AUTO_TEST_SUITE_END()
+
 BOOST_AUTO_TEST_SUITE_END()

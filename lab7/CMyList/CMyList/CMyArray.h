@@ -99,6 +99,17 @@ public:
 		}
 	}
 
+	void Clear()
+	{
+		if (GetSize() != 0)
+		{
+			DestroyItems(m_begin, m_end);
+			m_end = m_begin;
+			m_endOfCapacity = m_begin;
+		}
+
+	}
+
 	T & operator[](const size_t index)
 	{
 		if (index >= GetSize())
@@ -106,9 +117,7 @@ public:
 			throw std::out_of_range("Index >= size of array");
 		}
 
-		T *curr = m_begin;
-		for (size_t currIndex = 0; currIndex != index; curr++, currIndex++);
-		return *curr;
+		return m_begin[index];
 	}
 
 	T & operator[](const size_t index)const
@@ -118,9 +127,7 @@ public:
 			throw std::out_of_range("Index >= size of array");
 		}
 
-		T *curr = m_begin;
-		for (size_t currIndex = 0; currIndex != index; curr++, currIndex++);
-		return *curr;
+		return m_begin[index];
 	}
 
 	~CMyArray()

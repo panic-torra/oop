@@ -13,3 +13,4 @@ struct CAthlete
 bool LessWeight(CAthlete const& lhs, CAthlete const& rhs);
 bool LessHeight(CAthlete const& lhs, CAthlete const& rhs);
 bool LessFullName(CAthlete const& lhs, CAthlete const& rhs);
+bool const operator ==(CAthlete const & lhs, CAthlete const & rhs);

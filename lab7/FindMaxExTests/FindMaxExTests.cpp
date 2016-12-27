@@ -21,6 +21,14 @@ BOOST_AUTO_TEST_SUITE(FindMaxEx_)
 		BOOST_CHECK(!FindMaxEx(emptyVec, maxAthlete, LessFullName));
 	}
 
+	BOOST_AUTO_TEST_CASE(does_not_modify_max_value_when_vector_is_empty)
+	{
+		BOOST_CHECK(emptyVec.empty());
+		BOOST_CHECK(!FindMaxEx(emptyVec, maxAthlete, LessHeight));
+		CAthlete newAthlete;
+		BOOST_CHECK(maxAthlete == newAthlete);
+	}
+
 	BOOST_AUTO_TEST_CASE(can_find_max_athlet_by_name)
 	{
 		BOOST_CHECK(!athletes.empty());

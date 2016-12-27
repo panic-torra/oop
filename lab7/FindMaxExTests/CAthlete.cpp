@@ -26,3 +26,8 @@ bool LessWeight(CAthlete const& lhs, CAthlete const& rhs)
 {
 	return lhs.weight < rhs.weight;
 }
+
+bool const operator ==(CAthlete const & lhs, CAthlete const & rhs)
+{
+	return (lhs.fullName == rhs.fullName && lhs.height == rhs.height && lhs.weight == rhs.weight);
+}

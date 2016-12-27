@@ -83,6 +83,19 @@ public:
 	{
 		return m_endOfCapacity - m_begin;
 	}
+
+	T & operator[](const size_t index)
+	{
+		if (index >= GetSize())
+		{
+			throw std::out_of_range("Index >= size of array");
+		}
+
+		T *curr = m_begin;
+		for (size_t currIndex = 0; currIndex != index; curr++, currIndex++);
+		return *curr;
+	}
+
 	~CMyArray()
 	{
 		DeleteItems(m_begin, m_end);

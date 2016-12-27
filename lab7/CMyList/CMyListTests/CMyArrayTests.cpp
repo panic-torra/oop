@@ -54,6 +54,20 @@ BOOST_FIXTURE_TEST_SUITE(MyArray, EmptyStringArray)
 			arr.Append(4);
 			BOOST_CHECK_EQUAL(arr.GetBack().value, 4);
 		}
+
+		BOOST_AUTO_TEST_CASE(it_becomes_available_by_index)
+		{
+			for (auto i = 0; i < 6; ++i)
+			{
+				arr.Append(i);
+			}
+			BOOST_REQUIRE_THROW(arr[100].value, std::out_of_range);
+			BOOST_CHECK_EQUAL(arr[0].value, 0);
+			BOOST_CHECK_EQUAL(arr[4].value, 4);
+			BOOST_CHECK_EQUAL(arr[5].value, 5);
+
+		}
+
 	BOOST_AUTO_TEST_SUITE_END()
 
 	BOOST_AUTO_TEST_SUITE(after_copy_construction)
@@ -69,5 +83,6 @@ BOOST_FIXTURE_TEST_SUITE(MyArray, EmptyStringArray)
 			BOOST_CHECK_EQUAL(copy.GetSize(), arr.GetSize());
 			BOOST_CHECK_EQUAL(copy.GetCapacity(), arr.GetSize());
 		}
+
 	BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE_END()

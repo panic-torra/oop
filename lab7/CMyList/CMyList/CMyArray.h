@@ -84,7 +84,34 @@ public:
 		return m_endOfCapacity - m_begin;
 	}
 
+	void Resize(const size_t newSize)
+	{
+		size_t currSize = GetSize();
+		for (; currSize > newSize; currSize--)
+		{
+			m_end->~T();
+			m_end--;
+		}
+
+		for (; currSize < newSize; currSize++)
+		{
+			Append(T());
+		}
+	}
+
 	T & operator[](const size_t index)
+	{
+		if (index >= GetSize())
+		{
+			throw std::out_of_range("Index >= size of array");
+		}
+
+		T *curr = m_begin;
+		for (size_t currIndex = 0; currIndex != index; curr++, currIndex++);
+		return *curr;
+	}
+
+	T & operator[](const size_t index)const
 	{
 		if (index >= GetSize())
 		{

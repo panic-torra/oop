@@ -25,6 +25,15 @@ BOOST_FIXTURE_TEST_SUITE(MyArray, EmptyStringArray)
 		{
 			BOOST_CHECK_EQUAL(arr.GetCapacity(), 0u);
 		}
+
+		BOOST_AUTO_TEST_CASE(can_be_resized)
+		{
+			BOOST_CHECK_EQUAL(arr.GetSize(), 0u);
+			arr.Resize(5);
+			BOOST_CHECK_EQUAL(arr.GetSize(), 5u);
+			arr.Resize(2);
+			BOOST_CHECK_EQUAL(arr.GetSize(), 2u);
+		}
 	BOOST_AUTO_TEST_SUITE_END()
 
 	BOOST_AUTO_TEST_SUITE(after_appending_an_item)

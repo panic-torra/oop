@@ -13,17 +13,19 @@ Dictionary GetDictionaryFromFile(std::istream & file)
 	std::string str;
 	while (std::getline(file, str))
 	{
-		std::string first = "";
-		if (str.find(' ') != std::string::npos)
-		{
-			first.append(str, 0, str.find(' '));
-		}
+		std::string first = std::getline(file, str);
 
 		std::string second = "";
 		second.append(str, str.find(' '));
 
 		result.emplace(first, second);
+		std::cout << first << " " << second << std::endl;
 	}
 
 	return result;
+}
+
+void WorkWithDictionary(Dictionary & dictionary)
+{
+
 }

@@ -10,3 +10,4 @@
 typedef std::map <std::string, std::string> Dictionary;
 
 Dictionary GetDictionaryFromFile(std::istream & file);
+void WorkWithDictionary(Dictionary & dictionary);

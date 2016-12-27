@@ -12,7 +12,6 @@ BOOST_AUTO_TEST_SUITE(GetDictionaryFromFile_function)
 		Dictionary result = GetDictionaryFromFile(input);
 		BOOST_CHECK(result == expectedResult);
 	}
-
 	BOOST_AUTO_TEST_CASE(make_one_pair_in_map_by_value_in_file)
 	{
 		const Dictionary expectedResult = { 

@@ -20,7 +20,7 @@ int main(int argc, char * argv[])
 	ifstream input(argv[1]);
 	Dictionary dictionary = GetDictionaryFromFile(input);
 	
-	WorkWithDictionary(dixtionary);
+	WorkWithDictionary(dictionary);
 
 	return EXIT_SUCCESS;
 }

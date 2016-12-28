@@ -2,6 +2,9 @@
 #include "../CMyList/CMyArray.h"
 
 #include <iostream>
+#include <new>
+#include <algorithm>
+#include <boost/noncopyable.hpp>
 
 using namespace std;
 
@@ -15,6 +18,14 @@ struct ArrayItem
 struct EmptyStringArray
 {
 	CMyArray<ArrayItem> arr;
+};
+
+struct NonCopyable : boost::noncopyable
+{
+public:
+	NonCopyable(int value = 0) : value(value)
+	{}
+	int value;
 };
 
 BOOST_FIXTURE_TEST_SUITE(MyArray, EmptyStringArray)
@@ -104,6 +115,52 @@ BOOST_FIXTURE_TEST_SUITE(MyArray, EmptyStringArray)
 			auto copy(arr);
 			BOOST_CHECK_EQUAL(copy.GetSize(), arr.GetSize());
 			BOOST_CHECK_EQUAL(copy.GetCapacity(), arr.GetSize());
+		}
+
+	BOOST_AUTO_TEST_SUITE_END()
+
+	BOOST_AUTO_TEST_SUITE(can_use_assigment_operator)
+		BOOST_AUTO_TEST_CASE(copy_assigment)
+		{
+			for (auto i = 0; i < 6; ++i)
+			{
+				arr.Append(i);
+			}
+
+			auto copy = arr;
+			for (auto i = 0; i < 6; ++i)
+			{
+				BOOST_CHECK_EQUAL(copy[i].value, arr[i].value);
+			}
+		}
+
+		BOOST_AUTO_TEST_CASE(move_assigment)
+		{
+			for (auto i = 0; i < 6; ++i)
+			{
+				arr.Append(i);
+			}
+
+			auto && move = arr;
+			for (auto i = 0; i < 6; ++i)
+			{
+				BOOST_CHECK_EQUAL(move[i].value, i);
+				BOOST_CHECK_EQUAL(arr[i].value, 0u);
+			}
+		}
+
+	BOOST_AUTO_TEST_SUITE_END()
+
+	BOOST_AUTO_TEST_SUITE(has_iterators)
+		BOOST_AUTO_TEST_CASE(begin_iterator)
+		{
+			for (auto i = 0; i < 6; ++i)
+			{
+				arr.Append(i);
+			}
+			size_t counter = arr.GetSize() - 1;
+
+			
 		}
 
 	BOOST_AUTO_TEST_SUITE_END()

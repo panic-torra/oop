@@ -9,7 +9,7 @@ class CMyArray
 public:
 	CMyArray() = default;
 
-	CMyArray(const CMyArray& arr)
+	CMyArray(const CMyArray & arr)
 	{
 		const auto size = arr.GetSize();
 		if (size != 0)
@@ -28,9 +28,14 @@ public:
 		}
 	}
 
+	CMyArray(CMyArray && arr)
+	{
+
+	}
+
 	void Append(const T & value)
 	{
-		if (m_end == m_endOfCapacity) // no free space
+		if (m_end == m_endOfCapacity)
 		{
 			size_t newCapacity = std::max(1u, GetCapacity() * 2);
 
@@ -55,7 +60,7 @@ public:
 			m_end = newEnd;
 			m_endOfCapacity = m_begin + newCapacity;
 		}
-		else // has free space
+		else
 		{
 			new (m_end) T(value);
 			++m_end;
@@ -87,13 +92,13 @@ public:
 	void Resize(const size_t newSize)
 	{
 		size_t currSize = GetSize();
-		for (; currSize > newSize; currSize--)
+		for (; currSize > newSize; --currSize)
 		{
 			m_end->~T();
 			m_end--;
 		}
 
-		for (; currSize < newSize; currSize++)
+		for (; currSize < newSize; ++currSize)
 		{
 			Append(T());
 		}
@@ -107,7 +112,6 @@ public:
 			m_end = m_begin;
 			m_endOfCapacity = m_begin;
 		}
-
 	}
 
 	T & operator[](const size_t index)
@@ -129,6 +133,77 @@ public:
 
 		return m_begin[index];
 	}
+
+	CMyArray & operator = (const CMyArray & scr)
+	{
+		if (&scr != this)
+		{
+			CMyArray tmp(scr);
+
+			std::swap(m_begin, tmp.m_begin)
+				std::swap(m_end, tmp.m_end);
+			std::swap(m_endOfCapacity, tmp.m_endOfCapacity);
+			std::swap(m_array, tmp.m_array);
+		}
+
+		return *this;
+	}
+
+	CMyArray & operator = (CMyArray && tmp)
+	{
+		std::move(m_begin, tmp.m_begin);
+		std::move(m_end, tmp.m_end);
+		std::move(m_endOfCapacity, tmp.m_endOfCapacity);
+		std::move(m_array, tmp.m_array);
+
+		return *this;
+	}
+
+	CMyIterator<T> begin()
+	{
+		return CMyIterator<T>(m_array.get());
+	}
+
+	CMyIterator<T> end()
+	{
+		return CMyIterator<T>(m_array.get() + GetSize());
+	}
+
+	/*iterator begin()
+	{
+		return iterator(m_array.get(), false);
+	}
+	iterator end()
+	{
+		return iterator(m_array.get() + GetSize(), false);
+	}
+
+	const const_iterator cbegin() const
+	{
+		return const_iterator(m_array.get(), false);
+	}
+	const const_iterator cend() const
+	{
+		return const_iterator(m_array.get() + GetSize(), false);
+	}
+
+	iterator rbegin()
+	{
+		return iterator(m_array.get() + GetSize() - 1, true);
+	}
+	iterator rend()
+	{
+		return iterator(m_array.get() - 1, true);
+	}
+
+	const const_iterator crbegin() const
+	{
+		return const_iterator(m_array.get() + GetSize() - 1, true);
+	}
+	const const_iterator crend() const
+	{
+		return const_iterator(m_array.get() - 1, true);
+	}*/
 
 	~CMyArray()
 	{
@@ -160,7 +235,6 @@ private:
 		while (to != from)
 		{
 			--to;
-			// €вно вызываем деструктор дл€ шаблонного типа T
 			to->~T();
 		}
 	}
@@ -185,4 +259,5 @@ private:
 	T *m_begin = nullptr;
 	T *m_end = nullptr;
 	T *m_endOfCapacity = nullptr;
+	std::unique_ptr<T[]> m_array;
 };

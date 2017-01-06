@@ -28,9 +28,12 @@ public:
 		}
 	}
 
-	CMyArray(CMyArray && arr)
+	CMyArray(CMyArray && arr) 
+		: m_array(arr.m_array)
+		, m_begin(arr.m_begin)
+		, m_end(arr.m_end)
+		, m_endOfCapacity(arr.m_endOfCapacity)
 	{
-
 	}
 
 	void Append(const T & value)
@@ -159,7 +162,7 @@ public:
 		return *this;
 	}
 
-	CMyIterator<T> begin()
+	/*CMyIterator<T> begin()
 	{
 		return CMyIterator<T>(m_array.get());
 	}
@@ -169,40 +172,31 @@ public:
 		return CMyIterator<T>(m_array.get() + GetSize());
 	}
 
-	/*iterator begin()
+	const CMyIterator<const T> cbegin() const
 	{
-		return iterator(m_array.get(), false);
+		return const_iterator(m_array.get());
 	}
-	iterator end()
+	const CMyIterator<const T> cend() const
 	{
-		return iterator(m_array.get() + GetSize(), false);
-	}
-
-	const const_iterator cbegin() const
-	{
-		return const_iterator(m_array.get(), false);
-	}
-	const const_iterator cend() const
-	{
-		return const_iterator(m_array.get() + GetSize(), false);
+		return const_iterator(m_array.get() + GetSize());
 	}
 
-	iterator rbegin()
+	CMyIterator<T> rbegin()
 	{
-		return iterator(m_array.get() + GetSize() - 1, true);
+		return iterator(m_array.get() + GetSize() - 1);
 	}
-	iterator rend()
+	CMyIterator<T> rend()
 	{
 		return iterator(m_array.get() - 1, true);
 	}
 
-	const const_iterator crbegin() const
+	const CMyIterator<const T> crbegin() const
 	{
-		return const_iterator(m_array.get() + GetSize() - 1, true);
+		return const_iterator(m_array.get() + GetSize() - 1);
 	}
-	const const_iterator crend() const
+	const CMyIterator<const T> crend() const
 	{
-		return const_iterator(m_array.get() - 1, true);
+		return const_iterator(m_array.get() - 1);
 	}*/
 
 	~CMyArray()

@@ -6,23 +6,23 @@ BOOST_AUTO_TEST_SUITE(CHttpUrl_)
 	BOOST_AUTO_TEST_CASE(can_handle_url_with_errors_in_protocol)
 	{
 		BOOST_REQUIRE_THROW(CHttpUrl url("htp://www.google.com/"), CUrlParsingError);
-		BOOST_REQUIRE_THROW(CHttpUrl url("krya/www.goole.com/"), CUrlParsingError);
+		BOOST_REQUIRE_THROW(CHttpUrl url("krya/www.goose.com/"), CUrlParsingError);
 	}
 		
 	BOOST_AUTO_TEST_CASE(can_parse_protocol)
 	{
 		{
-			CHttpUrl urlHttp("http://www.google.com/");
+			CHttpUrl urlHttp("http://www.google.com");
 			BOOST_CHECK_EQUAL(ProtocolToStr(urlHttp.GetProtocol()), "http");
 
-			CHttpUrl urlHttps("https://www.google.com/");
+			CHttpUrl urlHttps("https://www.google.com");
 			BOOST_CHECK_EQUAL(ProtocolToStr(urlHttps.GetProtocol()), "https");
 		}
 		{
-			CHttpUrl urlHttp("http://www.google.com/");
+			CHttpUrl urlHttp("http://www.google.com");
 			BOOST_CHECK(urlHttp.GetProtocol() == Protocol::HTTP);
 
-			CHttpUrl urlHttps("https://www.google.com/");
+			CHttpUrl urlHttps("https://www.google.com");
 			BOOST_CHECK(urlHttps.GetProtocol() == Protocol::HTTPS);
 		}
 	}
@@ -64,6 +64,7 @@ BOOST_AUTO_TEST_SUITE(CHttpUrl_)
 			CHttpUrl url("http://google.com");
 			BOOST_CHECK_EQUAL(url.GetPort(), 80);
 		}
+
 		{
 			CHttpUrl url("http://google.com:65535");
 			BOOST_CHECK_EQUAL(url.GetPort(), 65535);

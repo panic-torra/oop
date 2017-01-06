@@ -23,28 +23,28 @@ bool CCar::IsEngineTurnOn() const
 	return m_isTurnedOn;
 }
 
-int CCar::GetSpeed() const
+unsigned CCar::GetSpeed() const
 {
 	return std::abs(m_speed);
 }
 
-int CCar::GetGear() const
+Gear CCar::GetGear() const
 {
-	return static_cast<int>(m_gear);
+	return m_gear;
 }
 
-int CCar::GetDirection() const
+Direction CCar::GetDirection() const
 {
-	if (m_gear == Gear::REVERSE)
+	if (m_speed < 0)
 	{
-		return -1;
+		return Direction::BACKWARD;
 	}
 	else if (m_speed > 0)
 	{
-		return 1;
+		return Direction::FORWARD;
 	}
 
-	return 0;
+	return Direction::NONE;
 }
 
 bool CCar::TurnOnEngine()
@@ -101,16 +101,22 @@ bool CCar::SetGear(Gear gear)
 	return isSetGear;
 }
 
-bool CCar::SetSpeed(int speed)
+bool CCar::SetSpeed(unsigned speed)
 {
-	if (IsSpeedInRange(m_gear, speed) && (m_gear == Gear::NEUTRAL) && (speed <= GetSpeed()) || !(m_gear == Gear::NEUTRAL))
+	if (m_gear == Gear::NEUTRAL && speed <= GetSpeed())
 	{
 		m_speed = speed;
 		return true;
 	}
-	if (m_gear == Gear::REVERSE)
+
+	if (IsSpeedInRange(m_gear, speed))
 	{
-		m_speed *= -1;
+		m_speed = speed;
+		if (m_gear == Gear::REVERSE)
+		{
+			m_speed *= -1;
+		}
+		return true;
 	}
 
 	return false;

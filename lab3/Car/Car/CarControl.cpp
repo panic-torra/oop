@@ -20,7 +20,7 @@ CCarControl::CCarControl(CCar &car, std::istream &input, std::ostream &output)
 {
 }
 
-string GetDirectionString(Direction const& direction)
+string GetDirectionString(Direction const & direction)
 {
 	std::string result;
 	if (direction == Direction::FORWARD)
@@ -97,7 +97,7 @@ bool CCarControl::SetGear(std::istream &args)
 
 	if (callback)
 	{
-		m_output << "Gear was switched on " << m_car.GetGear() << '\n';
+		m_output << "Gear was switched on " << static_cast<int>(m_car.GetGear()) << '\n';
 	}
 	else
 	{
@@ -131,7 +131,7 @@ bool CCarControl::Info(std::istream & /*args*/)
 	m_output << "Engine: " << ((m_car.IsEngineTurnOn()) ? "on" : "off") << '\n'
 		<< "Gear: " << static_cast<int>(m_car.GetGear()) << '\n'
 		<< "Speed: " << m_car.GetSpeed() << '\n'
-		<< "Direction: " << GetDirectionString(static_cast<Direction>(m_car.GetDirection())) << '\n';
+		<< "Direction: " << GetDirectionString(m_car.GetDirection()) << '\n';
 
 	return true;
 }

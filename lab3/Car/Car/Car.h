@@ -26,20 +26,21 @@ class CCar
 {
 public:
 
-	int GetGear() const;
-	int GetSpeed() const;
-	int GetDirection() const;
+	Gear GetGear() const;
+	unsigned GetSpeed() const;
+	Direction GetDirection() const;
 
 	bool TurnOnEngine();
 	bool TurnOffEngine();
 
 	bool SetGear(Gear gear);
-	bool SetSpeed(int speed);
+	bool SetSpeed(unsigned speed);
 
-	bool IsSpeedInRange(Gear const& gear, int speed) const;
 	bool IsEngineTurnOn() const;
-	bool CheckGear(Gear gear) const;
 private:
+	bool CheckGear(Gear gear) const;
+	bool IsSpeedInRange(Gear const& gear, int speed) const;
+
 	bool m_isTurnedOn = false;
 	Gear m_gear = Gear::NEUTRAL;
 	int m_speed = 0;

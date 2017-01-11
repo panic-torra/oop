@@ -25,6 +25,7 @@ public:
 		std::string & operator*() const;
 		CIterator & operator--();
 		CIterator & operator++();
+		CStringList::Node * CStringList::CIterator::operator->() const;
 
 		bool operator==(CIterator const& rhs) const;
 		bool operator!=(CIterator const& rhs) const;
@@ -45,7 +46,7 @@ public:
 	void Append(std::string const & data);
 	void PushFront(std::string const & data);
 
-	//void Insert(CIterator const  & it, std::string const & data);
+	void Insert(CIterator const  & it, std::string const & data);
 	//void Erase(CIterator const & it);
 
 	void Clear();

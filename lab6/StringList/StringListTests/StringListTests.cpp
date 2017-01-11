@@ -5,11 +5,14 @@ struct StringList
 {
 	CStringList list;
 	CStringList baseList;
+	std::vector<std::string> expectedStringArr;
 
 	StringList()
 	{
 		baseList.Append("hello");
 		baseList.Append("world");
+		expectedStringArr.push_back("hello");
+		expectedStringArr.push_back("world");
 	}
 };
 
@@ -35,7 +38,7 @@ BOOST_FIXTURE_TEST_SUITE(String_list, StringList)
 	{
 		auto copyList(baseList);
 		BOOST_CHECK_EQUAL(copyList.GetSize(), 2);
-		VerifyStringList(copyList, { "hello", "world" });
+		VerifyStringList(copyList, expectedStringArr);
 	}
 
 	BOOST_AUTO_TEST_CASE(has_move_constructor)
@@ -60,10 +63,10 @@ BOOST_FIXTURE_TEST_SUITE(String_list, StringList)
 			BOOST_CHECK(list.end() == CStringList::CIterator(nullptr));
 			BOOST_CHECK(list.cbegin() == CStringList::CIterator(nullptr));
 			BOOST_CHECK(list.cend() == CStringList::CIterator(nullptr));
-			BOOST_CHECK(list.rbegin() == CStringList::CIterator(nullptr));
-			BOOST_CHECK(list.rend() == CStringList::CIterator(nullptr));
-			BOOST_CHECK(list.crbegin() == CStringList::CIterator(nullptr));
-			BOOST_CHECK(list.crend() == CStringList::CIterator(nullptr));
+			BOOST_CHECK(list.rbegin() == CStringList::CIterator(nullptr, true));
+			BOOST_CHECK(list.rend() == CStringList::CIterator(nullptr, true));
+			BOOST_CHECK(list.crbegin() == CStringList::CIterator(nullptr, true));
+			BOOST_CHECK(list.crend() == CStringList::CIterator(nullptr, true));
 		}
 	
 	BOOST_AUTO_TEST_SUITE_END()
@@ -83,7 +86,26 @@ BOOST_FIXTURE_TEST_SUITE(String_list, StringList)
 		list.PushFront("world");
 		BOOST_CHECK_EQUAL(list.GetFrontElement(), "world");
 	}
-		
+
+	BOOST_AUTO_TEST_CASE(can_insert_element_by_iterator)
+	{
+		auto it = ++baseList.begin();
+		baseList.Insert(it, "surprise");
+		BOOST_CHECK_EQUAL(*++baseList.begin(), "surprise");
+
+		baseList.Insert(baseList.begin(), "first_surprise");
+		BOOST_CHECK_EQUAL(*baseList.begin(), "first_surprise");
+
+		baseList.Insert(baseList.end(), "bye-bye");
+
+		std::vector<std::string> expectedStrings = { "first_surprise", "hello", "surprise", "world", "bye-bye" };
+		size_t i = 0;
+		for (auto str : baseList)
+		{
+			BOOST_CHECK_EQUAL(str, expectedStrings[i]);
+			i++;
+		}
+	}
 
 	BOOST_AUTO_TEST_SUITE(after_appending_element)
 		BOOST_AUTO_TEST_CASE(increase_size)
@@ -107,6 +129,16 @@ BOOST_FIXTURE_TEST_SUITE(String_list, StringList)
 			list.PushFront("first");
 			BOOST_CHECK_EQUAL(list.GetFrontElement(), "first");
 			BOOST_CHECK_EQUAL(list.GetBackElement(), "world");
+		}
+
+		BOOST_AUTO_TEST_CASE(can_get_access_to_elements_from_range_based_for)
+		{
+			size_t counter = 0;
+			for (auto str : list)
+			{
+				BOOST_CHECK_EQUAL(str, expectedStringArr[counter]);
+				counter++;
+			}
 		}
 
 		BOOST_AUTO_TEST_CASE(can_be_cleared)

@@ -68,6 +68,51 @@ std::string & CStringList::CIterator::operator*() const
 	return m_node->data;
 }
 
+CStringList::Node * CStringList::CIterator::operator->() const
+{
+	return m_node;
+}
+
+CStringList::CIterator CStringList::begin()
+{
+	return CIterator(m_firstNode.get());
+}
+
+CStringList::CIterator CStringList::end()
+{
+	return (m_size == 0) ? begin() : CIterator(m_lastNode->next.get());
+}
+
+CStringList::CIterator const CStringList::cbegin() const
+{
+	return CIterator(m_firstNode.get());
+}
+
+CStringList::CIterator const CStringList::cend() const
+{
+	return (m_size == 0) ? cbegin() : CIterator(m_lastNode->next.get());
+}
+
+CStringList::CIterator CStringList::rbegin()
+{
+	return CIterator(m_lastNode, true);
+}
+
+CStringList::CIterator CStringList::rend()
+{
+	return (m_size == 0) ? rbegin() : CIterator(m_firstNode->prev, true);
+}
+
+CStringList::CIterator const CStringList::crbegin() const
+{
+	return CIterator(m_lastNode, true);
+}
+
+CStringList::CIterator const CStringList::crend() const
+{
+	return (m_size == 0) ? crbegin() : CIterator(m_firstNode->prev, true);
+}
+
 size_t CStringList::GetSize() const
 {
 	return m_size;
@@ -110,44 +155,23 @@ void CStringList::PushFront(std::string const & data)
 	++m_size;
 }
 
-CStringList::CIterator CStringList::begin()
+void CStringList::Insert(CIterator const  & it, std::string const & data)
 {
-	return CIterator(m_firstNode.get());
-}
-
-CStringList::CIterator CStringList::end()
-{
-	return (m_size == 0) ? begin() : CIterator(m_lastNode->next.get());
-}
-
-CStringList::CIterator const CStringList::cbegin() const
-{
-	return CIterator(m_firstNode.get());
-}
-
-CStringList::CIterator const CStringList::cend() const
-{
-	return (m_size == 0) ? cbegin() : CIterator(m_lastNode->next.get());
-}
-
-CStringList::CIterator CStringList::rbegin()
-{
-	return CIterator(m_lastNode);
-}
-
-CStringList::CIterator CStringList::rend()
-{
-	return (m_size == 0) ? rbegin() : CIterator(m_firstNode->prev);
-}
-
-CStringList::CIterator const CStringList::crbegin() const
-{
-	return CIterator(m_lastNode);
-}
-
-CStringList::CIterator const CStringList::crend() const
-{
-	return (m_size == 0) ? crbegin() : CIterator(m_firstNode->prev);
+	if (it == begin())
+	{
+		PushFront(data);
+	}
+	else if (it == end())
+	{
+		Append(data);
+	}
+	else
+	{
+		auto node = std::make_unique<CStringList::Node>(data, it->prev, move(it->prev->next));
+		it->prev = std::move(node.get());
+		node->prev->next = move(node);
+		++m_size;
+	}
 }
 
 std::string & CStringList::GetBackElement()

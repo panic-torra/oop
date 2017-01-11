@@ -150,10 +150,8 @@ BOOST_FIXTURE_TEST_SUITE(String_list, StringList)
 				auto it = ++baseList.begin();
 				baseList.Erase(it);
 				VerifyStringList(baseList, { "hello", "!" });
-				//BOOST_CHECK(*baseList.end() == "!");
-				//baseList.Erase(baseList.end());
-				//VerifyStringList(baseList, { "hello" });
-				baseList.Erase(baseList.begin());
+				baseList.Erase(baseList.end());
+				VerifyStringList(baseList, { "hello" });
 				baseList.Erase(baseList.begin());
 				BOOST_CHECK(baseList.IsEmpty());
 			}

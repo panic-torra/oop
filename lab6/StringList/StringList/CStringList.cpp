@@ -80,7 +80,7 @@ CStringList::CIterator CStringList::begin()
 
 CStringList::CIterator CStringList::end()
 {
-	return (m_size == 0) ? begin() : CIterator(m_lastNode->next.get());
+	return (m_size == 0) ? begin() : CIterator(m_lastNode);
 }
 
 CStringList::CIterator const CStringList::cbegin() const
@@ -90,7 +90,7 @@ CStringList::CIterator const CStringList::cbegin() const
 
 CStringList::CIterator const CStringList::cend() const
 {
-	return (m_size == 0) ? cbegin() : CIterator(m_lastNode->next.get());
+	return (m_size == 0) ? cbegin() : CIterator(m_lastNode);
 }
 
 CStringList::CIterator CStringList::rbegin()
@@ -100,7 +100,7 @@ CStringList::CIterator CStringList::rbegin()
 
 CStringList::CIterator CStringList::rend()
 {
-	return (m_size == 0) ? rbegin() : CIterator(m_firstNode->prev, true);
+	return (m_size == 0) ? rbegin() : CIterator(m_firstNode.get(), true);
 }
 
 CStringList::CIterator const CStringList::crbegin() const
@@ -110,7 +110,7 @@ CStringList::CIterator const CStringList::crbegin() const
 
 CStringList::CIterator const CStringList::crend() const
 {
-	return (m_size == 0) ? crbegin() : CIterator(m_firstNode->prev, true);
+	return (m_size == 0) ? crbegin() : CIterator(m_firstNode.get(), true);
 }
 
 size_t CStringList::GetSize() const

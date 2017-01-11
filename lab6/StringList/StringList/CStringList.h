@@ -42,11 +42,12 @@ public:
 	bool IsEmpty() const;
 
 	void Append(std::string const & data);
-
 	void PushFront(std::string const & data);
 
 	//void Insert(CIterator const  & it, std::string const & data);
 	//void Erase(CIterator const & it);
+
+	//void Clear();
 
 	CIterator begin();
 	CIterator end();
@@ -58,10 +59,10 @@ public:
 	CIterator const crbegin() const;
 	CIterator const crend() const;
 
-	//std::string & GetBackElement();
-	//std::string const & GetBackElement() const;
-	//std::string & GetFrontElement();
-	//std::string const & GetFrontElement() const;
+	std::string & GetBackElement();
+	std::string const & GetBackElement() const;
+	std::string & GetFrontElement();
+	std::string const & GetFrontElement() const;
 
 private:
 	size_t m_size = 0;

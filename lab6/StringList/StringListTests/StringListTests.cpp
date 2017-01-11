@@ -81,18 +81,18 @@ BOOST_FIXTURE_TEST_SUITE(String_list, StringList)
 			BOOST_CHECK_EQUAL(list.GetSize(), 3);
 		}
 
-		//BOOST_AUTO_TEST_CASE(element_can_be_taken_by_get_methods)
-		//{
-		//	list.Append("hello");
-		//	BOOST_CHECK_EQUAL(list.GetFrontElement, "hello");
-		//	BOOST_CHECK_EQUAL(list.GetBackElement, "hello");
-		//	list.Append("world");
-		//	BOOST_CHECK_EQUAL(list.GetFrontElement, "hello");
-		//	BOOST_CHECK_EQUAL(list.GetBackElement, "world");
-		//	list.PushFront("first");
-		//	BOOST_CHECK_EQUAL(list.GetFrontElement, "first");
-		//	BOOST_CHECK_EQUAL(list.GetBackElement, "world");
-		//}
+		BOOST_AUTO_TEST_CASE(element_can_be_taken_by_get_methods)
+		{
+			list.Append("hello");
+			BOOST_CHECK_EQUAL(list.GetFrontElement(), "hello");
+			BOOST_CHECK_EQUAL(list.GetBackElement(), "hello");
+			list.Append("world");
+			BOOST_CHECK_EQUAL(list.GetFrontElement(), "hello");
+			BOOST_CHECK_EQUAL(list.GetBackElement(), "world");
+			list.PushFront("first");
+			BOOST_CHECK_EQUAL(list.GetFrontElement(), "first");
+			BOOST_CHECK_EQUAL(list.GetBackElement(), "world");
+		}
 
 	BOOST_AUTO_TEST_SUITE_END()
 

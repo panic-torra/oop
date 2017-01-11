@@ -145,3 +145,22 @@ CStringList::CIterator const CStringList::crend() const
 	return (m_size == 0) ? crbegin() : CIterator(m_firstNode->prev);
 }
 
+std::string & CStringList::GetBackElement()
+{
+	return m_lastNode->data;
+}
+
+std::string const & CStringList::GetBackElement() const
+{
+	return m_lastNode->data;
+}
+
+std::string & CStringList::GetFrontElement()
+{
+	return m_firstNode->data;
+}
+
+std::string const & CStringList::GetFrontElement() const
+{
+	return m_firstNode->data;
+}

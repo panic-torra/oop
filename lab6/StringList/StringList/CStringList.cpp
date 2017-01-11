@@ -43,12 +43,12 @@ CStringList::~CStringList()
 
 bool CStringList::CIterator::operator==(CStringList::CIterator const & rhs) const
 {
-	return m_node == rhs.m_node;
+	return (m_node == rhs.m_node && m_isReverse == rhs.m_isReverse);
 }
 
 bool CStringList::CIterator::operator!=(CStringList::CIterator const & rhs) const
 {
-	return m_node != rhs.m_node;
+	return (m_node != rhs.m_node && m_isReverse != rhs.m_isReverse);
 }
 
 CStringList::CIterator & CStringList::CIterator::operator--()
@@ -61,6 +61,20 @@ CStringList::CIterator & CStringList::CIterator::operator++()
 {
 	m_node = (!m_isReverse) ? (m_node->next.get()) : (m_node->prev);
 	return *this;
+}
+
+CStringList::CIterator CStringList::CIterator::operator--(int)
+{
+	auto temp = *this;
+	--*this;
+	return temp;
+}
+
+CStringList::CIterator CStringList::CIterator::operator++(int)
+{
+	auto temp = *this;
+	++*this;
+	return temp;
 }
 
 std::string & CStringList::CIterator::operator*() const
@@ -83,6 +97,16 @@ CStringList::CIterator CStringList::end()
 	return (m_size == 0) ? begin() : CIterator(m_lastNode);
 }
 
+CStringList::CIterator const CStringList::begin() const
+{
+	return CIterator(m_firstNode.get());
+}
+
+CStringList::CIterator const CStringList::end() const
+{
+	return (m_size == 0) ? cbegin() : CIterator(m_lastNode);
+}
+
 CStringList::CIterator const CStringList::cbegin() const
 {
 	return CIterator(m_firstNode.get());
@@ -102,6 +126,17 @@ CStringList::CIterator CStringList::rend()
 {
 	return (m_size == 0) ? rbegin() : CIterator(m_firstNode.get(), true);
 }
+
+CStringList::CIterator const CStringList::rbegin() const
+{
+	return CIterator(m_lastNode, true);
+}
+
+CStringList::CIterator const CStringList::rend() const
+{
+	return (m_size == 0) ? rbegin() : CIterator(m_firstNode.get(), true);
+}
+
 
 CStringList::CIterator const CStringList::crbegin() const
 {
@@ -151,7 +186,6 @@ void CStringList::PushFront(std::string const & data)
 		m_lastNode = newNode.get();
 	}
 	m_firstNode = std::move(newNode);
-	m_firstNode->prev = nullptr;
 	++m_size;
 }
 
@@ -209,19 +243,9 @@ void CStringList::Erase(CIterator const & it)
 	}
 }
 
-std::string & CStringList::GetBackElement()
-{
-	return m_lastNode->data;
-}
-
 std::string const & CStringList::GetBackElement() const
 {
 	return m_lastNode->data;
-}
-
-std::string & CStringList::GetFrontElement()
-{
-	return m_firstNode->data;
 }
 
 std::string const & CStringList::GetFrontElement() const

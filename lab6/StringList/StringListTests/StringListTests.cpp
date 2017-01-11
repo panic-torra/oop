@@ -95,8 +95,9 @@ BOOST_FIXTURE_TEST_SUITE(String_list, StringList)
 		baseList.Insert(it, "surprise");
 		BOOST_CHECK_EQUAL(*++baseList.begin(), "surprise");
 
-		baseList.Insert(baseList.begin(), "first_surprise");
-		BOOST_CHECK_EQUAL(*baseList.begin(), "first_surprise");
+		it = baseList.begin()++;
+		baseList.Insert(it, "first_surprise");
+		BOOST_CHECK_EQUAL(*baseList.begin()++, "first_surprise");
 
 		baseList.Insert(baseList.end(), "bye-bye");
 

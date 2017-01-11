@@ -25,10 +25,12 @@ public:
 		std::string & operator*() const;
 		CIterator & operator--();
 		CIterator & operator++();
-		CStringList::Node * CStringList::CIterator::operator->() const;
+		CIterator operator--(int);
+		CIterator operator++(int);
+		Node * operator->() const;
 
-		bool operator==(CIterator const& rhs) const;
-		bool operator!=(CIterator const& rhs) const;
+		bool operator==(CIterator const & rhs) const;
+		bool operator!=(CIterator const & rhs) const;
 
 	private:
 		Node * m_node = nullptr;
@@ -53,17 +55,19 @@ public:
 
 	CIterator begin();
 	CIterator end();
+	CIterator const begin() const;
+	CIterator const end() const;
 	CIterator const cbegin() const;
 	CIterator const cend() const;
 
 	CIterator rbegin();
 	CIterator rend();
+	CIterator const rbegin() const;
+	CIterator const rend() const;
 	CIterator const crbegin() const;
 	CIterator const crend() const;
 
-	std::string & GetBackElement();
 	std::string const & GetBackElement() const;
-	std::string & GetFrontElement();
 	std::string const & GetFrontElement() const;
 
 private:

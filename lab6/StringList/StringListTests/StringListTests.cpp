@@ -5,16 +5,16 @@ struct StringList
 {
 	CStringList list;
 	CStringList baseList;
-	std::vector<std::string> expectedStringArr;
+	std::vector<std::string> expectedStringVector;
 
 	StringList()
 	{
 		baseList.Append("hello");
 		baseList.Append("world");
 		baseList.Append("!");
-		expectedStringArr.push_back("hello");
-		expectedStringArr.push_back("world");
-		expectedStringArr.push_back("!");
+		expectedStringVector.push_back("hello");
+		expectedStringVector.push_back("world");
+		expectedStringVector.push_back("!");
 	}
 };
 
@@ -40,7 +40,7 @@ BOOST_FIXTURE_TEST_SUITE(String_list, StringList)
 	{
 		auto copyList(baseList);
 		BOOST_CHECK_EQUAL(copyList.GetSize(), 3);
-		VerifyStringList(copyList, expectedStringArr);
+		VerifyStringList(copyList, expectedStringVector);
 	}
 
 	BOOST_AUTO_TEST_CASE(has_move_constructor)
@@ -138,7 +138,7 @@ BOOST_FIXTURE_TEST_SUITE(String_list, StringList)
 			size_t counter = 0;
 			for (auto str : baseList)
 			{
-				BOOST_CHECK_EQUAL(str, expectedStringArr[counter]);
+				BOOST_CHECK_EQUAL(str, expectedStringVector[counter]);
 				counter++;
 			}
 		}

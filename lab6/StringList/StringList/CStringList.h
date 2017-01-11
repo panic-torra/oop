@@ -26,6 +26,9 @@ public:
 		CIterator & operator--();
 		CIterator & operator++();
 
+		bool operator==(CIterator const& rhs) const;
+		bool operator!=(CIterator const& rhs) const;
+
 	private:
 		Node * m_node = nullptr;
 		bool m_isReverse = false;
@@ -39,13 +42,11 @@ public:
 	bool IsEmpty() const;
 
 	void Append(std::string const & data);
-	void Append(std::string && data);
 
 	void PushFront(std::string const & data);
-	void PushFront(std::string && data);
 
-	void Insert(CIterator const  & it, std::string const & data);
-	void Erase(CIterator const & it);
+	//void Insert(CIterator const  & it, std::string const & data);
+	//void Erase(CIterator const & it);
 
 	CIterator begin();
 	CIterator end();
@@ -57,18 +58,13 @@ public:
 	CIterator const crbegin() const;
 	CIterator const crend() const;
 
-	std::string & GetBackElement();
-	std::string const & GetBackElement() const;
-	std::string & GetFrontElement();
-	std::string const & GetFrontElement() const;
+	//std::string & GetBackElement();
+	//std::string const & GetBackElement() const;
+	//std::string & GetFrontElement();
+	//std::string const & GetFrontElement() const;
 
 private:
 	size_t m_size = 0;
 	std::unique_ptr<Node> m_firstNode;
 	Node * m_lastNode = nullptr;
-
-
-	void AppendImpl(std::unique_ptr<CStringList::Node> & newNode);
 };
-
-bool operator==(const CStringList & lhs, const CStringList & rhs);

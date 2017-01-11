@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CStringList.h"
 
-CStringList::Node::Node(const std::string & data, Node * prev, std::unique_ptr<Node> && next)
+CStringList::Node::Node(std::string const & data, Node * prev, std::unique_ptr<Node> && next)
 	:data(data)
 	, prev(prev)
 	, next(std::move(next))
@@ -36,6 +36,16 @@ CStringList::CStringList(CStringList && list)
 	list.m_size = 0;
 }
 
+bool CStringList::CIterator::operator==(CStringList::CIterator const & rhs) const
+{
+	return m_node == rhs.m_node;
+}
+
+bool CStringList::CIterator::operator!=(CStringList::CIterator const & rhs) const
+{
+	return m_node != rhs.m_node;
+}
+
 CStringList::CIterator & CStringList::CIterator::operator--()
 {
 	m_node = (!m_isReverse) ? (m_node->prev) : (m_node->next.get());
@@ -48,9 +58,9 @@ CStringList::CIterator & CStringList::CIterator::operator++()
 	return *this;
 }
 
-CStringList::CIterator CStringList::begin()
+std::string & CStringList::CIterator::operator*() const
 {
-	return CIterator(m_firstNode.get());
+	return m_node->data;
 }
 
 size_t CStringList::GetSize() const
@@ -63,20 +73,9 @@ bool CStringList::IsEmpty() const
 	return (m_size == 0);
 }
 
-void CStringList::Append(const std::string & data)
+void CStringList::Append(std::string const & data)
 {
 	auto newNode = std::make_unique<Node>(data, m_lastNode, nullptr);
-	AppendImpl(newNode);
-}
-
-void CStringList::Append(std::string && data)
-{
-	auto newNode = std::make_unique<Node>(std::move(data), m_lastNode, nullptr);
-	AppendImpl(newNode);
-}
-
-void  CStringList::AppendImpl(std::unique_ptr<CStringList::Node> & newNode)
-{
 	auto * newLastNode = newNode.get();
 	if (m_lastNode)
 	{
@@ -90,19 +89,59 @@ void  CStringList::AppendImpl(std::unique_ptr<CStringList::Node> & newNode)
 	++m_size;
 }
 
-//bool operator==(const CStringList & lhs, const CStringList & rhs)
-//{
-//	if (lhs.GetSize() == rhs.GetSize())
-//	{
-//		auto itr = rhs.begin();
-//		for (auto itl = lhs.begin(); itl != lhs.end(); ++itl, ++itr)
-//		{
-//			if (*itl != *itr)
-//			{
-//				return false;
-//			}
-//		}
-//		return true;
-//	}
-//	return false;
-//}
+void CStringList::PushFront(std::string const & data)
+{
+	auto newNode = std::make_unique<Node>(data, nullptr, move(m_firstNode));
+	if (newNode->next)
+	{
+		newNode->next->prev = newNode.get();
+	}
+	else
+	{
+		m_lastNode = newNode.get();
+	}
+	m_firstNode = std::move(newNode);
+	m_firstNode->prev = nullptr;
+	++m_size;
+}
+
+CStringList::CIterator CStringList::begin()
+{
+	return CIterator(m_firstNode.get());
+}
+
+CStringList::CIterator CStringList::end()
+{
+	return (m_size == 0) ? begin() : CIterator(m_lastNode->next.get());
+}
+
+CStringList::CIterator const CStringList::cbegin() const
+{
+	return CIterator(m_firstNode.get());
+}
+
+CStringList::CIterator const CStringList::cend() const
+{
+	return (m_size == 0) ? cbegin() : CIterator(m_lastNode->next.get());
+}
+
+CStringList::CIterator CStringList::rbegin()
+{
+	return CIterator(m_lastNode);
+}
+
+CStringList::CIterator CStringList::rend()
+{
+	return (m_size == 0) ? rbegin() : CIterator(m_firstNode->prev);
+}
+
+CStringList::CIterator const CStringList::crbegin() const
+{
+	return CIterator(m_lastNode);
+}
+
+CStringList::CIterator const CStringList::crend() const
+{
+	return (m_size == 0) ? crbegin() : CIterator(m_firstNode->prev);
+}
+

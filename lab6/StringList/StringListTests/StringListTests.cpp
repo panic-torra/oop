@@ -120,7 +120,7 @@ BOOST_FIXTURE_TEST_SUITE(String_list, StringList)
 			BOOST_CHECK_EQUAL(list.GetSize(), 3);
 		}
 
-		BOOST_AUTO_TEST_CASE(can_use_GetBackElement_and_GetFrontElement_methonds)
+		BOOST_AUTO_TEST_CASE(can_use_GetBackElement_and_GetFrontElement_methods)
 		{
 			list.Append("hello");
 			BOOST_CHECK_EQUAL(list.GetFrontElement(), "hello");

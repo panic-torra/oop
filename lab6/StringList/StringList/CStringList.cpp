@@ -36,6 +36,11 @@ CStringList::CStringList(CStringList && list)
 	list.m_size = 0;
 }
 
+CStringList::~CStringList()
+{
+	Clear();
+}
+
 bool CStringList::CIterator::operator==(CStringList::CIterator const & rhs) const
 {
 	return m_node == rhs.m_node;
@@ -164,3 +169,11 @@ std::string const & CStringList::GetFrontElement() const
 {
 	return m_firstNode->data;
 }
+
+void CStringList::Clear()
+{
+	m_lastNode = 0;
+	m_firstNode = 0;
+	m_size = 0;
+}
+

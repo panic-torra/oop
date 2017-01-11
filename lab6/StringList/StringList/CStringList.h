@@ -37,6 +37,7 @@ public:
 	CStringList() = default;
 	CStringList(CStringList & list);
 	CStringList(CStringList && list);
+	~CStringList();
 
 	size_t GetSize() const;
 	bool IsEmpty() const;
@@ -47,7 +48,7 @@ public:
 	//void Insert(CIterator const  & it, std::string const & data);
 	//void Erase(CIterator const & it);
 
-	//void Clear();
+	void Clear();
 
 	CIterator begin();
 	CIterator end();

@@ -6,3 +6,6 @@
 #include <boost/test/unit_test.hpp>
 
 #include <boost/algorithm/string/replace.hpp>
+
+#include <vector>
+#include <string>

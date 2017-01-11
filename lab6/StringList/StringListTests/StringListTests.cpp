@@ -1,6 +1,4 @@
 #include "stdafx.h"
-#include <vector>
-#include <string>
 #include "../StringList/CStringList.h"
 
 struct StringList
@@ -44,7 +42,7 @@ BOOST_FIXTURE_TEST_SUITE(String_list, StringList)
 	{
 		auto moveList = std::move(baseList);
 		BOOST_CHECK_EQUAL(moveList.GetSize(), 2);
-		//BOOST_CHECK(moveList.GetBackElement == "world");
+		BOOST_CHECK_EQUAL(moveList.GetBackElement(), "world");
 		BOOST_CHECK(baseList.IsEmpty());
 		VerifyStringList(baseList, {});
 	}
@@ -69,6 +67,23 @@ BOOST_FIXTURE_TEST_SUITE(String_list, StringList)
 		}
 	
 	BOOST_AUTO_TEST_SUITE_END()
+	
+	BOOST_AUTO_TEST_CASE(can_push_back)
+	{
+		list.Append("hello");
+		BOOST_CHECK_EQUAL(list.GetBackElement(), "hello");
+		list.Append("world");
+		BOOST_CHECK_EQUAL(list.GetBackElement(), "world");
+	}
+
+	BOOST_AUTO_TEST_CASE(can_push_front)
+	{
+		list.PushFront("hello");
+		BOOST_CHECK_EQUAL(list.GetFrontElement(), "hello");
+		list.PushFront("world");
+		BOOST_CHECK_EQUAL(list.GetFrontElement(), "world");
+	}
+		
 
 	BOOST_AUTO_TEST_SUITE(after_appending_element)
 		BOOST_AUTO_TEST_CASE(increase_size)
@@ -92,6 +107,12 @@ BOOST_FIXTURE_TEST_SUITE(String_list, StringList)
 			list.PushFront("first");
 			BOOST_CHECK_EQUAL(list.GetFrontElement(), "first");
 			BOOST_CHECK_EQUAL(list.GetBackElement(), "world");
+		}
+
+		BOOST_AUTO_TEST_CASE(can_be_cleared)
+		{
+			baseList.Clear();
+			VerifyStringList(baseList, {});
 		}
 
 	BOOST_AUTO_TEST_SUITE_END()

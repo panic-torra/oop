@@ -47,7 +47,7 @@ public:
 	void PushFront(std::string const & data);
 
 	void Insert(CIterator const  & it, std::string const & data);
-	//void Erase(CIterator const & it);
+	void Erase(CIterator const & it);
 
 	void Clear();
 

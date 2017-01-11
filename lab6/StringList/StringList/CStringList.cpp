@@ -174,6 +174,41 @@ void CStringList::Insert(CIterator const  & it, std::string const & data)
 	}
 }
 
+void CStringList::Erase(CIterator const & it)
+{
+	if (m_size != 0)
+	{
+		if (m_size == 1)
+		{
+			Clear();
+			return;
+		}
+
+		if (it == begin())
+		{
+			m_firstNode = std::move(m_firstNode->next);
+			m_firstNode->prev = nullptr;
+		}
+		else if (it.m_node == m_lastNode)
+		{
+			m_lastNode = std::move(it->prev);
+			m_lastNode->next = nullptr;
+		}
+		else
+		{
+			it->next->prev = std::move(it->prev);
+			it->prev->next = std::move(it->next);
+		}
+		
+		--m_size;
+
+	}
+	else
+	{
+		throw std::out_of_range("StringList is already empty");
+	}
+}
+
 std::string & CStringList::GetBackElement()
 {
 	return m_lastNode->data;
@@ -196,8 +231,8 @@ std::string const & CStringList::GetFrontElement() const
 
 void CStringList::Clear()
 {
-	m_lastNode = 0;
-	m_firstNode = 0;
+	m_lastNode = nullptr;
+	m_firstNode = nullptr;
 	m_size = 0;
 }
 

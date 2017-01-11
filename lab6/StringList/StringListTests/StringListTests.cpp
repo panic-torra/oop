@@ -11,8 +11,10 @@ struct StringList
 	{
 		baseList.Append("hello");
 		baseList.Append("world");
+		baseList.Append("!");
 		expectedStringArr.push_back("hello");
 		expectedStringArr.push_back("world");
+		expectedStringArr.push_back("!");
 	}
 };
 
@@ -37,15 +39,15 @@ BOOST_FIXTURE_TEST_SUITE(String_list, StringList)
 	BOOST_AUTO_TEST_CASE(has_copy_constructor)
 	{
 		auto copyList(baseList);
-		BOOST_CHECK_EQUAL(copyList.GetSize(), 2);
+		BOOST_CHECK_EQUAL(copyList.GetSize(), 3);
 		VerifyStringList(copyList, expectedStringArr);
 	}
 
 	BOOST_AUTO_TEST_CASE(has_move_constructor)
 	{
 		auto moveList = std::move(baseList);
-		BOOST_CHECK_EQUAL(moveList.GetSize(), 2);
-		BOOST_CHECK_EQUAL(moveList.GetBackElement(), "world");
+		BOOST_CHECK_EQUAL(moveList.GetSize(), 3);
+		BOOST_CHECK_EQUAL(moveList.GetBackElement(), "!");
 		BOOST_CHECK(baseList.IsEmpty());
 		VerifyStringList(baseList, {});
 	}
@@ -98,7 +100,7 @@ BOOST_FIXTURE_TEST_SUITE(String_list, StringList)
 
 		baseList.Insert(baseList.end(), "bye-bye");
 
-		std::vector<std::string> expectedStrings = { "first_surprise", "hello", "surprise", "world", "bye-bye" };
+		std::vector<std::string> expectedStrings = { "first_surprise", "hello", "surprise", "world", "!", "bye-bye" };
 		size_t i = 0;
 		for (auto str : baseList)
 		{
@@ -118,7 +120,7 @@ BOOST_FIXTURE_TEST_SUITE(String_list, StringList)
 			BOOST_CHECK_EQUAL(list.GetSize(), 3);
 		}
 
-		BOOST_AUTO_TEST_CASE(element_can_be_taken_by_get_methods)
+		BOOST_AUTO_TEST_CASE(can_use_GetBackElement_and_GetFrontElement_methonds)
 		{
 			list.Append("hello");
 			BOOST_CHECK_EQUAL(list.GetFrontElement(), "hello");
@@ -134,10 +136,26 @@ BOOST_FIXTURE_TEST_SUITE(String_list, StringList)
 		BOOST_AUTO_TEST_CASE(can_get_access_to_elements_from_range_based_for)
 		{
 			size_t counter = 0;
-			for (auto str : list)
+			for (auto str : baseList)
 			{
 				BOOST_CHECK_EQUAL(str, expectedStringArr[counter]);
 				counter++;
+			}
+		}
+
+		BOOST_AUTO_TEST_CASE(can_erase_element_by_iterator)
+		{
+			{
+				BOOST_REQUIRE_THROW(list.Erase(list.begin()), std::out_of_range);
+				auto it = ++baseList.begin();
+				baseList.Erase(it);
+				VerifyStringList(baseList, { "hello", "!" });
+				//BOOST_CHECK(*baseList.end() == "!");
+				//baseList.Erase(baseList.end());
+				//VerifyStringList(baseList, { "hello" });
+				baseList.Erase(baseList.begin());
+				baseList.Erase(baseList.begin());
+				BOOST_CHECK(baseList.IsEmpty());
 			}
 		}
 

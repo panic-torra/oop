@@ -4,35 +4,71 @@
 
 class CStringList
 {
-	class CNode
+	class Node
 	{
 	public:
-		CNode(const std::string & data, CNode * prev, std::unique_ptr<CNode> && next);
+		Node(std::string const & data, Node * prev, std::unique_ptr<Node> && next);
 		std::string data;
-		CNode * prev;
-		std::unique_ptr<CNode> next;
+		Node * prev;
+		std::unique_ptr<Node> next;
 	};
 
 public:
+	class CIterator
+	{
+		friend CStringList;
+	public:
+		CIterator() = default;
+		CIterator(Node * node);
+		CIterator(Node * node, bool isReverse);
+
+		std::string & operator*() const;
+		CIterator & operator--();
+		CIterator & operator++();
+
+	private:
+		Node * m_node = nullptr;
+		bool m_isReverse = false;
+	};
+
 	CStringList() = default;
-	CStringList(const CStringList & list);
+	CStringList(CStringList & list);
 	CStringList(CStringList && list);
-	CStringList(const size_t n);
 
-	void append(const std::string & data);
-	void append(std::string && data);
+	size_t GetSize() const;
+	bool IsEmpty() const;
 
-	void push_back(const std::string & data);
-	void push_back(std::string && data);
+	void Append(std::string const & data);
+	void Append(std::string && data);
 
-	void push_front(const std::string & data);
-	void push_front(std::string && data);
+	void PushFront(std::string const & data);
+	void PushFront(std::string && data);
 
-	size_t size() const;
-	bool empty() const;
+	void Insert(CIterator const  & it, std::string const & data);
+	void Erase(CIterator const & it);
+
+	CIterator begin();
+	CIterator end();
+	CIterator const cbegin() const;
+	CIterator const cend() const;
+
+	CIterator rbegin();
+	CIterator rend();
+	CIterator const crbegin() const;
+	CIterator const crend() const;
+
+	std::string & GetBackElement();
+	std::string const & GetBackElement() const;
+	std::string & GetFrontElement();
+	std::string const & GetFrontElement() const;
 
 private:
 	size_t m_size = 0;
-	std::unique_ptr<CNode> m_firstNode;
-	CNode * m_lastNode = nullptr;
+	std::unique_ptr<Node> m_firstNode;
+	Node * m_lastNode = nullptr;
+
+
+	void AppendImpl(std::unique_ptr<CStringList::Node> & newNode);
 };
+
+bool operator==(const CStringList & lhs, const CStringList & rhs);
